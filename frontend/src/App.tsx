@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 function App() {
-  const [messages, setMessages] = useState(["hi", "holl"]);
+  const [messages, setMessages] = useState([]);
 
   const wsRef = useRef();
 
@@ -13,6 +13,7 @@ function App() {
     };
 
     wsRef.current = ws;
+
     ws.onopen = () => {
       ws.send(
         JSON.stringify({
