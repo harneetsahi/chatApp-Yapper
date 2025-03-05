@@ -33,6 +33,11 @@ function App() {
   const sendMessage = () => {
     let message = document.getElementById("message");
 
+    if (!message.value) {
+      message.focus();
+      return;
+    }
+
     wsRef.current.send(
       JSON.stringify({
         type: "chat",
