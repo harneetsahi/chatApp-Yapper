@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
 function App() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<string[]>([]);
 
-  const wsRef = useRef();
+  const wsRef = useRef<WebSocket>(null);
 
   useEffect(() => {
     const ws = new WebSocket("http://localhost:8080");
 
+    wsRef.current = ws;
+
     ws.onmessage = (event) => {
       setMessages((messages) => [...messages, event.data]);
     };
-
-    wsRef.current = ws;
 
     ws.onopen = () => {
       ws.send(
@@ -30,15 +30,15 @@ function App() {
     };
   }, []);
 
-  const sendMessage = () => {
-    let message = document.getElementById("message");
+  const sendMessage = (): void => {
+    let message = document.getElementById("message") as HTMLInputElement;
 
     if (!message.value) {
       message.focus();
       return;
     }
 
-    wsRef.current.send(
+    wsRef.current?.send(
       JSON.stringify({
         type: "chat",
         payload: {
