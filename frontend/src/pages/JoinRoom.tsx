@@ -5,6 +5,7 @@ function JoinRoom() {
         <h1>Chat Room</h1>
 
         <section>
+          <p>Status: </p>
           <form action="">
             <input
               type="text"
@@ -22,6 +23,7 @@ function JoinRoom() {
           </form>
           <p>OR</p>
           <button>Create Room</button>
+          <p>{/* room code */}</p>
         </section>
       </div>
     </>
