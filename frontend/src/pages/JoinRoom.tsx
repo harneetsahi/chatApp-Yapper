@@ -1,4 +1,18 @@
+import { useState } from "react";
+
 function JoinRoom() {
+  const [roomCode, setRoomCode] = useState("");
+
+  function generateRoomCode() {
+    const options = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    let result = "";
+    for (let i = 0; i < 5; i++) {
+      const times = Math.floor(Math.random() * options.length);
+      result += options[times];
+    }
+    setRoomCode(result);
+  }
+
   return (
     <>
       <div>
@@ -22,8 +36,14 @@ function JoinRoom() {
             <button>Join Room</button>
           </form>
           <p>OR</p>
-          <button>Create Room</button>
-          <p>{/* room code */}</p>
+          <button
+            onClick={() => {
+              generateRoomCode();
+            }}
+          >
+            Create Room
+          </button>
+          <p>{roomCode}</p>
         </section>
       </div>
     </>
