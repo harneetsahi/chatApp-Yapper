@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Button from "../components/Button";
+import Input from "../components/Input";
 
 function JoinRoom() {
   const [roomCode, setRoomCode] = useState("");
@@ -23,34 +25,35 @@ function JoinRoom() {
           <p>
             Status: <span className="text-green-500">{status}</span>{" "}
           </p>
-          <form action="" className="mt-5 flex flex-col">
-            <input
-              className="border-1 border-gray-700 px-4 py-2 rounded-lg w-100"
+          <form action="" className="mt-5 flex flex-col gap-5">
+            <Input
               type="text"
               name="roomId"
               id="roomId"
               placeholder="Room ID"
             />
-            <input
-              className="border-1 border-gray-700 px-4 py-2 rounded-lg w-100 mt-5"
+            <Input
               type="text"
               name="username"
               id="username"
               placeholder="Username"
             />
-            <button className="border-1 border-gray-700 px-4 py-2 rounded-lg w-100 mt-5 bg-gray-200 text-gray-800 cursor-pointer">
-              Join Room
-            </button>
+            <Button text={"Join Room"} />
           </form>
-          <p>OR</p>
-          <button
+          <div className="flex items-center gap-5 my-5">
+            <span className="border-1 border-gray-400 flex-1 h-.5 "></span>
+            <span className="w-max text-gray-400">OR</span>
+            <span className="border-1 border-gray-400 flex-1 h-.5 "></span>
+          </div>
+          <Button
+            text={"Create Room"}
             onClick={() => {
               generateRoomCode();
             }}
-          >
-            Create Room
-          </button>
-          <p>{roomCode}</p>
+          />
+          <div className="text-gray-400 flex justify-center mt-6 text-sm">
+            <p>Here is your room ID: {roomCode}</p>
+          </div>
         </section>
       </div>
     </>
