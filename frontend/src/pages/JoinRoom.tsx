@@ -29,12 +29,14 @@ function JoinRoom() {
           </p>
           <form action="" className="mt-5 flex flex-col gap-5">
             <Input
+              variant="primary"
               type="text"
               name="roomId"
               id="roomId"
               placeholder="Room ID"
             />
             <Input
+              variant="primary"
               type="text"
               name="username"
               id="username"

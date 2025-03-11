@@ -3,12 +3,20 @@ interface InputProps {
   name: string;
   id: string;
   placeholder: string;
+  variant: "primary" | "chat";
 }
 
-function Input({ type, name, id, placeholder }: InputProps) {
+const variantStyles = {
+  primary: "w-100 hover:scale-x-103 transition-all",
+  chat: "w-full font-light",
+};
+
+const defaultStyles = "border-1 border-gray-700 px-4 py-2 rounded-lg";
+
+function Input({ type, name, id, placeholder, variant }: InputProps) {
   return (
     <input
-      className="border-1 border-gray-700 px-4 py-2 rounded-lg w-100 hover:scale-x-103 transition-all"
+      className={`${variantStyles[variant]} ${defaultStyles}`}
       type={type}
       name={name}
       id={id}

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import MessageBubble from "../components/MessageBubble";
+import Input from "../components/Input";
 
 function Dashboard() {
   const [messages, setMessages] = useState<string[]>([]);
@@ -52,22 +54,21 @@ function Dashboard() {
 
   return (
     <>
-      <div className="h-screen bg-slate-900 text-gray-300 flex flex-col  p-5">
+      <div className="h-screen flex flex-col p-5 pt-13">
         <div className="self-center">
-          <h1>Chat App</h1>
+          <h1 className="text-2xl">Private Chat Room</h1>
         </div>
-        <div className="flex-1 flex flex-col justify-between m-5 mt-10">
+        <div className="flex-1 flex flex-col justify-between m-5 mt-20">
           <section>
             {messages.map((message) => (
-              <div className="w-max border-1 border-gray-800 rounded-xl px-5 py-1 bg-amber-700 mb-2.5">
-                {message}
-              </div>
+              <MessageBubble message={message} />
             ))}
           </section>
           <div className="flex gap-3">
-            <input
+            <Input
+              name="message"
               id="message"
-              className="py-2 px-4 border-1 border-gray-600 rounded-xl w-full font-light"
+              variant={"chat"}
               type="text"
               placeholder="enter your message here"
             />
