@@ -42,7 +42,7 @@ function JoinRoom() {
               id="username"
               placeholder="Username"
             />
-            <Button text={"Join Room"} />
+            <Button variant="primary" text={"Join Room"} />
           </form>
           <div className="flex items-center gap-5 my-5">
             <span className="border-1 border-gray-400 flex-1 h-.5 "></span>
@@ -50,6 +50,7 @@ function JoinRoom() {
             <span className="border-1 border-gray-400 flex-1 h-.5 "></span>
           </div>
           <Button
+            variant="primary"
             text={"Create Room"}
             onClick={() => {
               generateRoomCode();

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
+import Button from "../components/Button";
 
 function Dashboard() {
   const [messages, setMessages] = useState<string[]>([]);
@@ -72,12 +73,7 @@ function Dashboard() {
               type="text"
               placeholder="enter your message here"
             />
-            <button
-              onClick={() => sendMessage()}
-              className="py-2 px-4 border-1 border-gray-600 rounded-xl cursor-pointer"
-            >
-              Send
-            </button>
+            <Button text="Send" onClick={() => sendMessage()} variant="chat" />
           </div>
         </div>
       </div>
