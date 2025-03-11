@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -9,6 +10,7 @@ function Dashboard() {
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
 
+  const dispatch = useDispatch();
   const wsRef = useRef<WebSocket>(null);
 
   useEffect(() => {
