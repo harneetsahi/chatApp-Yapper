@@ -2,9 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import EmojiPicker from "emoji-picker-react";
 
 function Dashboard() {
   const [messages, setMessages] = useState<string[]>([]);
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const [textField, setTextField] = useState("");
 
   const wsRef = useRef<WebSocket>(null);
 
@@ -33,10 +36,20 @@ function Dashboard() {
     };
   }, []);
 
+  const handleEmoji = (e) => {
+    setTextField((prev) => prev + e.emoji);
+    setEmojiOpen(false);
+  };
+
   const sendMessage = (): void => {
     let message = document.getElementById("message") as HTMLInputElement;
 
-    if (!message.value) {
+    // if (!message.value) {
+    //   message.focus();
+    //   return;
+    // }
+
+    if (!textField) {
       message.focus();
       return;
     }
@@ -51,6 +64,7 @@ function Dashboard() {
     );
 
     message.value = "";
+    setTextField("");
   };
 
   return (
@@ -59,23 +73,40 @@ function Dashboard() {
         <div className="self-center">
           <h1 className="text-2xl">Private Chat Room</h1>
         </div>
-        <div className="flex-1 flex flex-col justify-between m-5 mt-20">
-          <section>
+        <section className="flex-1 flex flex-col justify-between m-5 mt-20">
+          <div>
             {messages.map((message) => (
               <MessageBubble message={message} />
             ))}
-          </section>
-          <div className="flex gap-3">
+          </div>
+          <div className="flex items-center">
             <Input
               name="message"
               id="message"
               variant={"chat"}
               type="text"
               placeholder="enter your message here"
+              value={textField}
+              onChange={(e) => setTextField(e.target.value)}
             />
+
+            <p
+              className="mx-3 text-3xl text-orange-300 cursor-pointer"
+              onClick={() => setEmojiOpen(!emojiOpen)}
+            >
+              🙂
+            </p>
+            <div className="emoji-container relative">
+              <EmojiPicker
+                open={emojiOpen}
+                className="emoji-picker -right-25 sm:-right-0 bottom-8 transition-all "
+                onEmojiClick={handleEmoji}
+              />
+            </div>
+
             <Button text="Send" onClick={() => sendMessage()} variant="chat" />
           </div>
-        </div>
+        </section>
       </div>
     </>
   );

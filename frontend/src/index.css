@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* overriding the default positioning of emojipicker by increasing specificity here */
+.emoji-container > .emoji-picker {
+  position: absolute;
+}

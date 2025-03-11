@@ -4,6 +4,8 @@ interface InputProps {
   id: string;
   placeholder: string;
   variant: "primary" | "chat";
+  onChange?: () => void;
+  value: string;
 }
 
 const variantStyles = {
@@ -13,7 +15,15 @@ const variantStyles = {
 
 const defaultStyles = "border-1 border-gray-700 px-4 py-2 rounded-lg";
 
-function Input({ type, name, id, placeholder, variant }: InputProps) {
+function Input({
+  type,
+  name,
+  id,
+  placeholder,
+  variant,
+  value,
+  onChange,
+}: InputProps) {
   return (
     <input
       className={`${variantStyles[variant]} ${defaultStyles}`}
@@ -21,6 +31,8 @@ function Input({ type, name, id, placeholder, variant }: InputProps) {
       name={name}
       id={id}
       placeholder={placeholder}
+      value={value}
+      onChange={onChange}
     />
   );
 }
