@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       {/* <BrowserRouter> */}
-      <div className="bg-slate-900 text-amber-50 h-screen w-screen">
+      <div className="bg-slate-900 text-amber-50 h-screen w-screen backdrop:ur">
         {/* <Routes>
             <Route path="/" element={<JoinRoom />}></Route>
             <Route path="/dashboard" element={<Dashboard />}></Route>

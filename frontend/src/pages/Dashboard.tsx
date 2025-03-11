@@ -44,11 +44,6 @@ function Dashboard() {
   const sendMessage = (): void => {
     let message = document.getElementById("message") as HTMLInputElement;
 
-    // if (!message.value) {
-    //   message.focus();
-    //   return;
-    // }
-
     if (!textField) {
       message.focus();
       return;
@@ -65,6 +60,7 @@ function Dashboard() {
 
     message.value = "";
     setTextField("");
+    setEmojiOpen(false);
   };
 
   return (
@@ -75,9 +71,11 @@ function Dashboard() {
         </div>
         <section className="flex-1 flex flex-col justify-between m-5 mt-20">
           <div>
-            {messages.map((message) => (
-              <MessageBubble message={message} />
-            ))}
+            <div>
+              {messages.map((message) => (
+                <MessageBubble message={message} />
+              ))}
+            </div>
           </div>
           <div className="flex items-center">
             <Input
