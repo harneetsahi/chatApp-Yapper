@@ -5,6 +5,7 @@ import Input from "../components/Input";
 function JoinRoom() {
   const [roomCode, setRoomCode] = useState("");
   const [status, setStatus] = useState("connecting...");
+  const [newRoom, setNewRoom] = useState(false);
 
   function generateRoomCode() {
     const options = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -14,6 +15,7 @@ function JoinRoom() {
       result += options[times];
     }
     setRoomCode(result);
+    setNewRoom(true);
   }
 
   return (
@@ -51,9 +53,11 @@ function JoinRoom() {
               generateRoomCode();
             }}
           />
-          <div className="text-gray-400 flex justify-center mt-6 text-sm">
-            <p>Here is your room ID: {roomCode}</p>
-          </div>
+          {newRoom && (
+            <div className="text-gray-400 flex justify-center mt-6 text-sm">
+              <p>Here is your room ID: {roomCode}</p>
+            </div>
+          )}
         </section>
       </div>
     </>
