@@ -4,10 +4,11 @@ import { signin, signout, signup } from "../controllers/auth.controller";
 
 const authRouter = Router();
 
+// @ts-ignore
 authRouter.post("/signup", signup);
-
+// @ts-ignore
 authRouter.post("/signin", signin);
-
+// @ts-ignore
 authRouter.post("/signout", signout);
 
 export default authRouter;

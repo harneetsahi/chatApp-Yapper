@@ -2,9 +2,13 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import authRouter from "./routes/auth.route";
+import { connectDB } from "./db/db";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const httpServer = createServer(app);
+
 const PORT = process.env.PORT;
 
 app.use(express.json());
@@ -30,4 +34,7 @@ app.use("/api/auth", authRouter);
 //   });
 // });
 
-httpServer.listen(PORT, () => console.log("listening on port " + PORT));
+httpServer.listen(PORT || 3001, () => {
+  console.log("listening on port ");
+  connectDB();
+});

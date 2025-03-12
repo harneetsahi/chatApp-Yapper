@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import User from "../models/user.model";
 
 export const signup = async (req: Request, res: Response) => {
   const requiredBody = z.object({
@@ -23,7 +24,6 @@ export const signup = async (req: Request, res: Response) => {
   });
 
   const parsedBody = requiredBody.safeParse(req.body);
-
   if (!parsedBody.success) {
     return res.json({
       message: "Incorrect format",
@@ -32,13 +32,14 @@ export const signup = async (req: Request, res: Response) => {
   }
 
   ////!SECTION
-
   const { firstName, lastName, email, password } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    // create a db entry using a model
+    console.log(firstName, lastName, email, password);
+
+    await User.create({ firstName, lastName, email, password: hashedPassword });
 
     res.json({
       message: "successfully signed up",
@@ -52,11 +53,41 @@ export const signup = async (req: Request, res: Response) => {
 
 export const signin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-
   try {
-    // check in db if user already exists
-    //  if yes, match password and then sign a jwt and return to the user
+    const user = await User.findOne({ email });
+
+    if (user) {
+      const matchPassword = await bcrypt.compare(password, user.password);
+
+      if (matchPassword) {
+        const token = jwt.sign(
+          {
+            id: user._id,
+          },
+          `${process.env.JWT_SECRET}`,
+          { expiresIn: "7d" }
+        );
+
+        const options = {
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== "development",
+        };
+
+        return res
+          .status(201)
+          .cookie("jwt", token, options)
+          .json({ message: "logged in successfully" });
+      } else {
+        return res.json({ message: "Incorrect credentials" });
+      }
+    } else {
+      return res.json({
+        message: "User does not exist",
+      });
+    }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "internal server error",
     });
