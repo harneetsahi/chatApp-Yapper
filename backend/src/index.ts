@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import authRouter from "./routes/auth.route";
@@ -12,6 +13,7 @@ const httpServer = createServer(app);
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 

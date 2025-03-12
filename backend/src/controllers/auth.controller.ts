@@ -25,7 +25,7 @@ export const signup = async (req: Request, res: Response) => {
 
   const parsedBody = requiredBody.safeParse(req.body);
   if (!parsedBody.success) {
-    return res.json({
+    res.json({
       message: "Incorrect format",
       error: parsedBody.error,
     });
@@ -36,8 +36,6 @@ export const signup = async (req: Request, res: Response) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 8);
-
-    console.log(firstName, lastName, email, password);
 
     await User.create({ firstName, lastName, email, password: hashedPassword });
 
@@ -74,16 +72,16 @@ export const signin = async (req: Request, res: Response) => {
           secure: process.env.NODE_ENV !== "development",
         };
 
-        return res
+        res
           .status(201)
           .cookie("jwt", token, options)
-          .json({ message: "logged in successfully" });
+          .json({ message: "logged in successfully", email: user.email });
       } else {
-        return res.json({ message: "Incorrect credentials" });
+        res.json({ message: "Incorrect credentials" });
       }
     } else {
-      return res.json({
-        message: "User does not exist",
+      res.json({
+        message: "User not found",
       });
     }
   } catch (error) {
@@ -94,4 +92,14 @@ export const signin = async (req: Request, res: Response) => {
   }
 };
 
-export const signout = (req: Request, res: Response) => {};
+export const signout = (req: Request, res: Response) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 0 }).status(200).json({
+      message: "logged out successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
