@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
@@ -10,8 +9,6 @@ function Dashboard() {
   const [messages, setMessages] = useState<string[]>(["hi"]);
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
-
-  const dispatch = useDispatch();
 
   const socket = io("ws://localhost:3000");
 
