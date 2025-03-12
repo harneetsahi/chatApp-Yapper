@@ -1,51 +1,24 @@
-import { WebSocketServer, WebSocket } from "ws";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
-const wss = new WebSocketServer({ port: 8080 });
+const httpServer = createServer();
 
-interface User {
-  socket: WebSocket;
-  room: string;
-}
+const io = new Server(httpServer, {
+  cors: {
+    origin:
+      process.env.NODE_ENV === "production"
+        ? false
+        : ["http://localhost:5173", "http://127.0.0.1:5173"],
+  },
+});
 
-let userCount = 0;
-let allSockets: User[] = [];
-
-// {
-//   "type" : "join",
-//   "payload" : {
-//     "roomId" : "123"
-//   }
-// }
-
-// {
-//   "type" : "chat",
-//   "payload" : {
-//     "message" : "Hi there"
-//   }
-// }
-
-wss.on("connection", (socket) => {
+io.on("connection", (socket) => {
   socket.on("error", console.error);
 
-  socket.on("message", (message) => {
-    // @ts-ignore
-    const parsedMessage = JSON.parse(message);
-
-    if (parsedMessage.type === "join") {
-      allSockets.push({
-        socket,
-        room: parsedMessage.payload.roomId,
-      });
-    }
-
-    if (parsedMessage.type === "chat") {
-      const currentUserRoom = allSockets.find((x) => x.socket == socket)?.room;
-
-      allSockets.forEach((x) => {
-        if (x.room == currentUserRoom) {
-          x.socket.send(parsedMessage.payload.message);
-        }
-      });
-    }
+  socket.on("message", ({ message }: { message: string }) => {
+    console.log("new message " + message);
+    io.emit("new message " + message);
   });
 });
+
+httpServer.listen(3000, () => console.log("listening on port 3000"));

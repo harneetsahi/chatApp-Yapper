@@ -1,40 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { io } from "socket.io-client";
 import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import EmojiPicker from "emoji-picker-react";
 
 function Dashboard() {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<string[]>(["hi"]);
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
 
   const dispatch = useDispatch();
-  const wsRef = useRef<WebSocket>(null);
+
+  const socket = io("ws://localhost:3000");
 
   useEffect(() => {
-    const ws = new WebSocket("http://localhost:8080");
-
-    wsRef.current = ws;
-
-    ws.onmessage = (event) => {
+    socket.on("message", (event) => {
       setMessages((messages) => [...messages, event.data]);
-    };
-
-    ws.onopen = () => {
-      ws.send(
-        JSON.stringify({
-          type: "join",
-          payload: {
-            roomId: "red",
-          },
-        })
-      );
-    };
+      console.log(messages);
+    });
 
     return () => {
-      ws.close();
+      socket.off("message");
     };
   }, []);
 
@@ -44,23 +32,13 @@ function Dashboard() {
   };
 
   const sendMessage = (): void => {
-    let message = document.getElementById("message") as HTMLInputElement;
-
     if (!textField) {
-      message.focus();
       return;
     }
 
-    wsRef.current?.send(
-      JSON.stringify({
-        type: "chat",
-        payload: {
-          message: message?.value,
-        },
-      })
-    );
+    socket.emit("message", textField);
+    setMessages((messages) => [...messages, textField]);
 
-    message.value = "";
     setTextField("");
     setEmojiOpen(false);
   };
@@ -74,8 +52,8 @@ function Dashboard() {
         <section className="flex-1 flex flex-col justify-between m-5 mt-20">
           <div>
             <div>
-              {messages.map((message) => (
-                <MessageBubble message={message} />
+              {messages.map((message, index) => (
+                <MessageBubble key={index} message={message} />
               ))}
             </div>
           </div>
