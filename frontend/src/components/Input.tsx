@@ -4,7 +4,7 @@ interface InputProps {
   id: string;
   placeholder: string;
   variant: "primary" | "chat";
-  onChange?: () => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }
 

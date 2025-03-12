@@ -23,13 +23,21 @@ function JoinRoom() {
     setNewRoom(true);
   }
 
-  function handleSubmit(e: Event): void {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     if (roomId && username) {
       navigate("/dashboard");
     }
-  }
+  };
+
+  const handleRoomIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRoomId(e.target.value);
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
 
   return (
     <>
@@ -52,7 +60,7 @@ function JoinRoom() {
               id="roomId"
               placeholder="Room ID"
               value={roomId}
-              onChange={(e) => setRoomId(e.target.value)}
+              onChange={handleRoomIdChange}
             />
             <Input
               variant="primary"
@@ -61,7 +69,7 @@ function JoinRoom() {
               id="username"
               placeholder="Username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleUsernameChange}
             />
             <Button variant="primary" text={"Join Room"} />
           </form>

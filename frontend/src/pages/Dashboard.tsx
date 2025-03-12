@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 function Dashboard() {
   const [messages, setMessages] = useState<string[]>(["hi"]);
@@ -11,7 +11,6 @@ function Dashboard() {
   const [textField, setTextField] = useState("");
 
   const socket = io("ws://localhost:3000");
-
   useEffect(() => {
     socket.on("message", (event) => {
       setMessages((messages) => [...messages, event.data]);
@@ -23,12 +22,12 @@ function Dashboard() {
     };
   }, []);
 
-  const handleEmoji = (e) => {
+  const handleEmoji = (e: EmojiClickData) => {
     setTextField((prev) => prev + e.emoji);
     setEmojiOpen(false);
   };
 
-  const sendMessage = (): void => {
+  const sendMessage = () => {
     if (!textField) {
       return;
     }
