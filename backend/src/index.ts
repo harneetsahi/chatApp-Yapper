@@ -1,12 +1,13 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import authRouter from "./routes/auth.route";
 import { connectDB } from "./db/db";
-import dotenv from "dotenv";
-dotenv.config();
+import authRouter from "./routes/auth.route";
+import messageRouter from "./routes/message.route";
 
+dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
+app.use("/api/message", messageRouter);
 
 // const io = new Server(httpServer, {
 //   cors: {
