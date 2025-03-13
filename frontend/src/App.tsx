@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import JoinRoom from "./pages/JoinRoom";
+import Signup from "./pages/Signup";
+import Signin from "./pages/Signin";
 
 function App() {
   return (
@@ -8,7 +9,8 @@ function App() {
       <BrowserRouter>
         <div className="bg-slate-900 text-amber-50 h-screen w-screen">
           <Routes>
-            <Route path="/" element={<JoinRoom />}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/signin" element={<Signin />}></Route>
             <Route path="/dashboard" element={<Dashboard />}></Route>
           </Routes>
         </div>

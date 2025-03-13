@@ -1,3 +1,3 @@
 ### ChatApp
 
-Built using websockets
+Built using socket-io

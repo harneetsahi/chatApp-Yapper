@@ -5,7 +5,7 @@ interface InputProps {
   placeholder: string;
   variant: "primary" | "chat";
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value?: string;
 }
 
 const variantStyles = {
