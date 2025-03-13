@@ -4,8 +4,12 @@ import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import Navbar from "../components/Navbar";
+import { useAuthStore } from "../store/useAuthStore";
 
 function Dashboard() {
+  const { authUser } = useAuthStore();
+
   const [messages, setMessages] = useState<string[]>(["hi"]);
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
@@ -41,6 +45,7 @@ function Dashboard() {
 
   return (
     <>
+      <Navbar />
       <div className="h-screen flex flex-col p-5 pt-13">
         <div className="self-center">
           <h1 className="text-2xl">Private Chat Room</h1>
