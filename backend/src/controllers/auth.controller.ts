@@ -108,7 +108,9 @@ export const checkAuth = (req: Request, res: Response) => {
   try {
     // @ts-ignore
     res.status(200).json(req.user);
+    return;
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
+    return;
   }
 };

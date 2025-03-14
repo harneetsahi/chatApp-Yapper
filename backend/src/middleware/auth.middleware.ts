@@ -9,6 +9,7 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     res.status(401).json({
       message: "Please log in",
     });
+    return;
   }
 
   try {
