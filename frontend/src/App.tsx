@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import Loader from "./components/Loader";
+import Navbar from "./components/Navbar";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -26,6 +27,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route
             path="/"
