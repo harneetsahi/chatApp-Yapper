@@ -1,4 +1,4 @@
-function ThemeComp() {
+function ThemeIcon() {
   return (
     <>
       <label className="swap swap-rotate">
@@ -26,4 +26,4 @@ function ThemeComp() {
   );
 }
 
-export default ThemeComp;
+export default ThemeIcon;

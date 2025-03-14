@@ -1,6 +1,5 @@
-import { Theme } from "emoji-picker-react";
 import { useAuthStore } from "../store/useAuthStore";
-import ThemeComp from "./Theme";
+import ThemeIcon from "../icons/ThemeIcon";
 
 function Navbar() {
   const { authUser } = useAuthStore();
@@ -8,7 +7,7 @@ function Navbar() {
   return (
     <>
       <div>Navbar</div>
-      <ThemeComp />
+      <ThemeIcon />
     </>
   );
 }

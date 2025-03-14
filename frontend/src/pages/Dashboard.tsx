@@ -62,7 +62,6 @@ function Dashboard() {
             <Input
               name="message"
               id="message"
-              variant={"chat"}
               type="text"
               placeholder="enter your message here"
               value={textField}
