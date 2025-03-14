@@ -4,7 +4,6 @@ import MessageBubble from "../components/MessageBubble";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import Navbar from "../components/Navbar";
 import { useAuthStore } from "../store/useAuthStore";
 
 function Dashboard() {
@@ -14,17 +13,17 @@ function Dashboard() {
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
 
-  const socket = io("ws://localhost:3000");
-  useEffect(() => {
-    socket.on("message", (event) => {
-      setMessages((messages) => [...messages, event.data]);
-      console.log(messages);
-    });
+  // const socket = io("ws://localhost:3000");
+  // useEffect(() => {
+  //   socket.on("message", (event) => {
+  //     setMessages((messages) => [...messages, event.data]);
+  //     console.log(messages);
+  //   });
 
-    return () => {
-      socket.off("message");
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("message");
+  //   };
+  // }, []);
 
   const handleEmoji = (e: EmojiClickData) => {
     setTextField((prev) => prev + e.emoji);
@@ -45,8 +44,7 @@ function Dashboard() {
 
   return (
     <>
-      <Navbar />
-      <div className="h-screen flex flex-col p-5 pt-13">
+      <div className="h-full flex flex-col justify-between p-5">
         <div className="self-center">
           <h1 className="text-2xl">Private Chat Room</h1>
         </div>

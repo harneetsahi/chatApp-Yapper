@@ -1,47 +1,122 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
+import MailIcon from "../icons/MailIcon";
 import Input from "../components/Input";
+import PersonIcon from "../icons/PersonIcon";
+import PasswordIcon from "../icons/PasswordIcon";
+import Eye from "../icons/Eye";
+import EyeClose from "../icons/EyeClose";
+import Loader from "../components/Loader";
 
 function Signup() {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const { signup, isSigningUp } = useAuthStore();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await signup(formData);
+    navigate("/signin");
+  };
+
   return (
     <>
-      <div className="flex flex-col items-center h-full pt-30">
+      <div className="flex flex-col items-center h-full my-15">
         <h1 className="text-2xl">Create an account</h1>
 
-        <section className="mt-10">
-          <form action="" className="mt-5 flex flex-col gap-5">
+        <section className="my-10 flex flex-col ">
+          <form
+            action=""
+            onSubmit={handleSubmit}
+            className="mt-5 flex flex-col gap-5"
+          >
             <Input
-              variant="primary"
-              type="text"
-              name="firstname"
+              icon={<PersonIcon />}
+              type="firstname"
               id="firstname"
-              placeholder="First name"
+              placeholder="First Name"
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value.trim() })
+              }
+              value={formData.firstName}
+              name="firstname"
+              minLength={3}
+              maxLength={50}
+              title={"Must have at least 3 letters and max 50 letters"}
+              required={true}
             />
+
             <Input
-              variant="primary"
-              type="text"
-              name="lastname"
+              icon={<PersonIcon />}
+              type="lastname"
               id="lastname"
-              placeholder="Last name"
+              placeholder="Last Name"
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value.trim() })
+              }
+              value={formData.lastName}
+              name="lastname"
+              minLength={2}
+              maxLength={50}
+              title={"Must have at least 2 letters and max 50 letters"}
+              required={true}
             />
             <Input
-              variant="primary"
+              icon={<MailIcon />}
               type="email"
-              name="email"
               id="email"
-              placeholder="Email"
+              placeholder="mail@site.com"
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              value={formData.email}
+              name="email"
+              maxLength={50}
+              required={true}
             />
-            <Input
+            <div className="flex relative">
+              <Input
+                icon={<PasswordIcon />}
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="Password"
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                value={formData.password}
+                name="password"
+                minLength={8}
+                maxLength={16}
+                pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,16}$"
+                title="Must be 8 to 16 letters long, including 1 number, 1 lowercase letter, 1 uppercase letter, 1 special character"
+                required={true}
+              />
+              <button
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-0 bottom-0 right-3"
+              >
+                {showPassword ? <Eye /> : <EyeClose />}
+              </button>
+            </div>
+
+            <Button
+              disabled={isSigningUp}
+              type="submit"
               variant="primary"
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
+              text={isSigningUp ? <Loader /> : "Sign up"}
             />
-            <Button variant="primary" text={"Sign up"} />
           </form>
 
-          <div className="flex items-center gap-5 my-8">
+          <div className="flex items-center gap-5 my-10">
             <span className="border-1 border-gray-400 flex-1 h-.5 "></span>
             <span className="w-max text-gray-400">OR</span>
             <span className="border-1 border-gray-400 flex-1 h-.5 "></span>

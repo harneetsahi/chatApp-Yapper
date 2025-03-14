@@ -7,7 +7,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar bg-base-100 shadow-sm px-8 py-5">
+      <div className="navbar bg-base-100 px-8 py-5">
         <div className="flex-none">
           <ChatIcon />
         </div>
