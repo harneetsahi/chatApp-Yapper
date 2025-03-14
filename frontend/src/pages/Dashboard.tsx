@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import MessageBubble from "../components/MessageBubble";
-import Input from "../components/Input";
+
 import Button from "../components/Button";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useAuthStore } from "../store/useAuthStore";
+import MessageInput from "../components/MessageInput";
 
 function Dashboard() {
   const { authUser } = useAuthStore();
@@ -30,21 +31,21 @@ function Dashboard() {
     setEmojiOpen(false);
   };
 
-  const sendMessage = () => {
-    if (!textField) {
-      return;
-    }
+  // const sendMessage = () => {
+  //   if (!textField) {
+  //     return;
+  //   }
 
-    socket.emit("message", textField);
-    setMessages((messages) => [...messages, textField]);
+  //   socket.emit("message", textField);
+  //   setMessages((messages) => [...messages, textField]);
 
-    setTextField("");
-    setEmojiOpen(false);
-  };
+  //   setTextField("");
+  //   setEmojiOpen(false);
+  // };
 
   return (
     <>
-      <div className="h-full flex flex-col justify-between p-5">
+      <div className="h-[calc(100vh-80px)] flex flex-col justify-between p-5">
         <div className="self-center">
           <h1 className="text-2xl">Private Chat Room</h1>
         </div>
@@ -57,10 +58,11 @@ function Dashboard() {
             </div>
           </div>
           <div className="flex items-center">
-            <Input
+            <MessageInput
               name="message"
               id="message"
               type="text"
+              variant="chat"
               placeholder="enter your message here"
               value={textField}
               onChange={(e) => setTextField(e.target.value)}

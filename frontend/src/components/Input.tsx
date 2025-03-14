@@ -47,22 +47,6 @@ function Input({
           required={required}
         />
       </label>
-      {/* {type === "email" && (
-        <p className="validator-hint hidden">Please enter a valid email</p>
-      )}
-      {type === "password" && (
-        <p className="validator-hint hidden">
-          Password must be between 8 to 16 characters long
-          <br />
-          with at least 1 number,
-          <br />
-          1 uppercase letter,
-          <br />
-          1 lowercase letter,
-          <br />
-          and 1 special character
-        </p>
-      )} */}
     </>
   );
 }
