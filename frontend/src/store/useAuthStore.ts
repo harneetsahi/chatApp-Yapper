@@ -17,6 +17,7 @@ interface IAuthStore {
   checkAuth: () => Promise<void>;
   signup: (user: User) => void;
   signin: (user: User) => void;
+  signout: () => void;
 }
 
 export const useAuthStore = create<IAuthStore>((set) => ({
@@ -59,6 +60,16 @@ export const useAuthStore = create<IAuthStore>((set) => ({
       toast.success("Welcome to your account. Yap away!");
     } catch (error) {
       console.log("error signing in", error);
+      toast.error((error as Error).message);
+    }
+  },
+
+  signout: async () => {
+    try {
+      await axiosInstance.post("/auth/signout");
+      set({ authUser: null });
+    } catch (error) {
+      console.log(error);
       toast.error((error as Error).message);
     }
   },

@@ -30,7 +30,7 @@ function Signup() {
 
   return (
     <>
-      <div className="flex flex-col items-center h-full my-15">
+      <div className="flex flex-col items-center h-full my-10">
         <h1 className="text-2xl">Create an account</h1>
 
         <section className="my-10 flex flex-col ">

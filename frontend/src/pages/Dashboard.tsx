@@ -6,6 +6,8 @@ import Button from "../components/Button";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useAuthStore } from "../store/useAuthStore";
 import MessageInput from "../components/MessageInput";
+import SmileyIcon from "../icons/SmileyIcon";
+import ArrowupIcon from "../icons/ArrowupIcon";
 
 function Dashboard() {
   const { authUser } = useAuthStore();
@@ -47,7 +49,7 @@ function Dashboard() {
     <>
       <div className="h-[calc(100vh-80px)] flex flex-col justify-between p-5">
         <div className="self-center">
-          <h1 className="text-2xl">Private Chat Room</h1>
+          <h1 className="text-2xl"></h1>
         </div>
         <section className="flex-1 flex flex-col justify-between m-5 mt-20">
           <div>
@@ -63,16 +65,17 @@ function Dashboard() {
               id="message"
               type="text"
               variant="chat"
-              placeholder="enter your message here"
+              placeholder=""
               value={textField}
               onChange={(e) => setTextField(e.target.value)}
             />
-
             <p
-              className="mx-3 text-3xl text-orange-300 cursor-pointer"
+              className="mx-1.5 text-3xl text-orange-300 cursor-pointer relative"
               onClick={() => setEmojiOpen(!emojiOpen)}
             >
-              🙂
+              <SmileyIcon
+                className={"text-gray-300 absolute -left-11 -top-3"}
+              />
             </p>
             <div className="emoji-container relative">
               <EmojiPicker
@@ -82,7 +85,11 @@ function Dashboard() {
               />
             </div>
 
-            <Button text="Send" onClick={() => sendMessage()} variant="chat" />
+            <Button
+              text={<ArrowupIcon />}
+              onClick={() => sendMessage()}
+              variant="sendMessage"
+            />
           </div>
         </section>
       </div>

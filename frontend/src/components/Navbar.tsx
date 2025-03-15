@@ -1,9 +1,15 @@
 import { useAuthStore } from "../store/useAuthStore";
 import ThemeIcon from "../icons/ThemeIcon";
 import ChatIcon from "../icons/ChatIcon";
+import LogoutIcon from "../icons/LogoutIcon";
+import { Link } from "react-router-dom";
 
 function Navbar() {
-  const { authUser } = useAuthStore();
+  const { authUser, signout } = useAuthStore();
+
+  function handleLogout() {
+    signout();
+  }
 
   return (
     <>
@@ -12,10 +18,17 @@ function Navbar() {
           <ChatIcon />
         </div>
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">Yapper</a>
+          <Link to="/dashboard" className="btn btn-ghost text-lg">
+            Yapper
+          </Link>
         </div>
-        <div className="flex-none">
-          <ThemeIcon />
+        <div className="flex items-center gap-4">
+          <div title="Change Theme">
+            <ThemeIcon />
+          </div>
+          <Link to="/signin" onClick={handleLogout} title="Logout">
+            {authUser && <LogoutIcon />}
+          </Link>
         </div>
       </div>
     </>

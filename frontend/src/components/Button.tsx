@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps {
-  variant: "primary" | "chat";
+  variant: "primary" | "chat" | "sendMessage";
   text: string | React.JSX.Element;
   type?: "submit" | "button";
   disabled?: boolean;
@@ -9,12 +9,13 @@ interface ButtonProps {
 }
 
 const variantStyles = {
-  primary: "w-80 hover:scale-x-103 transition-all",
-  chat: "",
+  primary:
+    "w-80 hover:scale-x-103 transition-all rounded-md px-4 py-2 text-gray-800",
+  chat: "rounded-md px-4 py-2",
+  sendMessage: "bg-transparent border-none text-gray-200",
 };
 
-const defaultStyles =
-  "border-1 border-gray-700 py-2 px-4 rounded-md bg-gray-100 text-gray-800 cursor-pointer";
+const defaultStyles = "border-1 border-gray-700 bg-gray-100  cursor-pointer";
 
 function Button({ variant, text, type, onClick, disabled }: ButtonProps) {
   return (

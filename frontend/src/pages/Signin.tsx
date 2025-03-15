@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
 import Button from "../components/Button";
 import MailIcon from "../icons/MailIcon";
 import Input from "../components/Input";
