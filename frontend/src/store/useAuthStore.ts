@@ -10,12 +10,13 @@ interface User {
 }
 
 interface IAuthStore {
-  authUser: User | null;
+  authUser: string | null;
   isSigningUp: boolean;
   isSigningIn: boolean;
   isCheckingAuth: boolean;
   checkAuth: () => Promise<void>;
-  signup: (user: User) => void;
+  signup: (user: User) => Promise<void>;
+
   signin: (user: User) => void;
   signout: () => void;
 }
@@ -43,16 +44,18 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     set({ isSigningUp: true });
     try {
       const res = await axiosInstance.post("/auth/signup", formData);
-      // set({ authUser: res.data });
-      console.log(res);
-      toast.success("Signed up successfully");
+      set({ authUser: res.data });
+      console.log(res.data);
+      toast.success("Account created successfully");
     } catch (error) {
-      console.log("error signing up " + error);
       toast.error((error as Error).message);
+    } finally {
+      set({ isSigningUp: false });
     }
   },
 
   signin: async (formData) => {
+    set({ isSigningIn: true });
     try {
       const res = await axiosInstance.post("/auth/signin", formData);
       set({ authUser: res.data });
@@ -61,6 +64,8 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     } catch (error) {
       console.log("error signing in", error);
       toast.error((error as Error).message);
+    } finally {
+      set({ isSigningIn: false });
     }
   },
 

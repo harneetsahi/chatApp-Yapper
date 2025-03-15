@@ -47,11 +47,11 @@ function Dashboard() {
 
   return (
     <>
-      <div className="h-[calc(100vh-80px)] flex flex-col justify-between p-5">
+      <div className="h-[calc(100vh-80px)] flex flex-col justify-between p-5 px-7">
         <div className="self-center">
           <h1 className="text-2xl"></h1>
         </div>
-        <section className="flex-1 flex flex-col justify-between m-5 mt-20">
+        <section className="flex-1 flex flex-col justify-between">
           <div>
             <div>
               {messages.map((message, index) => (

@@ -27,7 +27,11 @@ function Navbar() {
             <ThemeIcon />
           </div>
           <Link to="/signin" onClick={handleLogout} title="Logout">
-            {authUser && <LogoutIcon />}
+            {authUser && (
+              <div className="flex gap-2">
+                <LogoutIcon /> Logout
+              </div>
+            )}
           </Link>
         </div>
       </div>

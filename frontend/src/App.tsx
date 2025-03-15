@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster position="top-center" reverseOrder={false} />
         <Navbar />
         <Routes>
           <Route
@@ -37,7 +37,7 @@ function App() {
           ></Route>
           <Route
             path="/signup"
-            element={!authUser ? <Signup /> : <Navigate to="/dashboard" />}
+            element={!authUser ? <Signup /> : <Navigate to="/signin" />}
           ></Route>
           <Route
             path="/signin"

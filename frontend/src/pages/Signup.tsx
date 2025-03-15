@@ -1,4 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { z } from "zod";
+
 import Button from "../components/Button";
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
@@ -11,7 +15,6 @@ import EyeClose from "../icons/EyeClose";
 import Loader from "../components/Loader";
 
 function Signup() {
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -22,10 +25,13 @@ function Signup() {
 
   const { signup, isSigningUp } = useAuthStore();
 
+  // const schema = z.object({
+  //   email: z.string().email(),
+  // });
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await signup(formData);
-    navigate("/signin");
+    signup(formData);
   };
 
   return (
