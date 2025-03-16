@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: retro --default, luxury --prefersdark;
-}
+@plugin "daisyui";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* overriding the default positioning of emojipicker by increasing specificity here */
 .emoji-container > .emoji-picker {

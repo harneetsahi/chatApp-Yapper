@@ -8,6 +8,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import MessageInput from "../components/MessageInput";
 import SmileyIcon from "../icons/SmileyIcon";
 import ArrowupIcon from "../icons/ArrowupIcon";
+import { themeClass } from "../lib/ThemeClass";
 
 function Dashboard() {
   const { authUser } = useAuthStore();
@@ -47,7 +48,9 @@ function Dashboard() {
 
   return (
     <>
-      <div className="h-[calc(100vh-80px)] flex flex-col justify-between p-5 px-7">
+      <div
+        className={`h-[calc(100vh-80px)] flex flex-col justify-between p-5 px-7 `}
+      >
         <div className="self-center">
           <h1 className="text-2xl"></h1>
         </div>
@@ -70,12 +73,10 @@ function Dashboard() {
               onChange={(e) => setTextField(e.target.value)}
             />
             <p
-              className="mx-1.5 text-3xl text-orange-300 cursor-pointer relative"
+              className="mx-1.5 text-3xl cursor-pointer relative"
               onClick={() => setEmojiOpen(!emojiOpen)}
             >
-              <SmileyIcon
-                className={"text-gray-300 absolute -left-11 -top-3"}
-              />
+              <SmileyIcon className={"absolute -left-11 -top-3"} />
             </p>
             <div className="emoji-container relative">
               <EmojiPicker

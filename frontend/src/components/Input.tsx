@@ -1,4 +1,5 @@
 import React from "react";
+import { themeClass } from "../lib/ThemeClass";
 
 interface InputProps {
   icon?: React.JSX.Element;
@@ -31,7 +32,7 @@ function Input({
 }: InputProps) {
   return (
     <>
-      <label className="input validator">
+      <label className={`input validator border-gray-700  ${themeClass}`}>
         {icon}
         <input
           type={type}

@@ -25,7 +25,7 @@ function Signin() {
 
   return (
     <>
-      <div className="flex flex-col items-center h-full justify-center mt-20">
+      <div className="flex flex-col items-center h-[calc(100vh-72px)] justify-center">
         <h1 className="text-2xl">Log in</h1>
 
         <section className="mt-10">
@@ -77,15 +77,20 @@ function Signin() {
             />
           </form>
 
-          <div className="flex items-center gap-5 my-8">
-            <span className="border-1 border-gray-400 flex-1 h-.5 "></span>
-            <span className="w-max text-gray-400">OR</span>
-            <span className="border-1 border-gray-400 flex-1 h-.5 "></span>
+          <div className="flex items-center gap-5 my-10">
+            <span className="border-t-1 border-gray-700 flex-1 h-.5 "></span>
+            <span className="w-max text-gray-700">OR</span>
+            <span className="border-t-1 border-gray-700 flex-1 h-.5 "></span>
           </div>
 
           <div className="text-sm text-center ">
-            <span className=" text-gray-500 mr-2">Don't have an account?</span>
-            <Link className="text-gray-300 hover:text-gray-50" to="/signup">
+            <span className=" dark:text-yellow-800 text-zinc-700 mr-2">
+              Don't have an account?
+            </span>
+            <Link
+              className="dark:text-yellow-600 text-zinc-900 hover:dark:text-yellow-400 hover:text-zinc-600"
+              to="/signup"
+            >
               Sign up
             </Link>
           </div>

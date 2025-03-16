@@ -12,7 +12,7 @@ const variantStyles = {
   primary:
     "w-80 hover:scale-x-103 transition-all rounded-md px-4 py-2 text-gray-800",
   chat: "rounded-md px-4 py-2",
-  sendMessage: "bg-transparent border-none text-gray-200",
+  sendMessage: "bg-transparent border-none ",
 };
 
 const defaultStyles = "border-1 border-gray-700 bg-gray-100  cursor-pointer";
