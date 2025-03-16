@@ -40,6 +40,8 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     }
   },
 
+  // TODO : Find a way to navigate user to signin after signup
+
   signup: async (formData) => {
     set({ isSigningUp: true });
     try {
