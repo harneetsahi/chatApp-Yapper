@@ -3,12 +3,24 @@ import ThemeIcon from "../icons/ThemeIcon";
 import ChatIcon from "../icons/ChatIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import { Link } from "react-router-dom";
+import { useThemeStore } from "../store/useThemeStore";
 
 function Navbar() {
   const { authUser, signout } = useAuthStore();
+  const { theme, setTheme } = useThemeStore();
 
   function handleLogout() {
     signout();
+  }
+
+  function changeTheme() {
+    if (theme === "luxury") {
+      setTheme("retro");
+      console.log("retro");
+    } else {
+      setTheme("luxury");
+      console.log("luxury");
+    }
   }
 
   return (
@@ -18,12 +30,12 @@ function Navbar() {
           <ChatIcon />
         </div>
         <div className="flex-1">
-          <Link to="/dashboard" className="btn btn-ghost text-lg">
+          <Link to="/" className="btn btn-ghost text-lg">
             Yapper
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          <div title="Change Theme">
+          <div title="Change Theme" onClick={() => changeTheme()}>
             <ThemeIcon />
           </div>
           <Link to="/signin" onClick={handleLogout} title="Logout">

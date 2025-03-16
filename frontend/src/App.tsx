@@ -8,9 +8,11 @@ import Home from "./pages/Home";
 import { useAuthStore } from "./store/useAuthStore";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
+import { useThemeStore } from "./store/useThemeStore";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     checkAuth();
@@ -26,7 +28,7 @@ function App() {
     );
 
   return (
-    <>
+    <div data-theme={theme}>
       <BrowserRouter>
         <Toaster position="top-center" reverseOrder={false} />
         <Navbar />
@@ -49,7 +51,7 @@ function App() {
           ></Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 
