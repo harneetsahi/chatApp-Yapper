@@ -49,7 +49,7 @@ function Dashboard() {
   return (
     <>
       <div
-        className={`h-[calc(100vh-80px)] flex flex-col justify-between p-5 px-7 `}
+        className={`h-[calc(100vh-72px)] flex flex-col justify-between p-5 px-7 `}
       >
         <div className="self-center">
           <h1 className="text-2xl"></h1>

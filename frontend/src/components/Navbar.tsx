@@ -9,6 +9,7 @@ import MoonIcon from "../icons/MoonIcon";
 
 function Navbar() {
   const { authUser, signout } = useAuthStore();
+
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme === "dark";
@@ -19,8 +20,14 @@ function Navbar() {
   }
 
   useEffect(() => {
-    const theme = document.querySelector("html")?.classList.toggle("dark");
-    localStorage.setItem("theme", theme);
+    const htmlElement = document.documentElement;
+    if (darkMode) {
+      htmlElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      htmlElement.classList.remove("dark");
+      localStorage.setItem("theme", "");
+    }
   }, [darkMode]);
 
   return (

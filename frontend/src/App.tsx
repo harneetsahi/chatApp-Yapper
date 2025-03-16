@@ -22,14 +22,14 @@ function App() {
   if (isCheckingAuth && !authUser)
     return (
       <>
-        <div className="flex h-screen justify-center items-center ">
+        <div className="flex  justify-center items-center ">
           <Loader />
         </div>
       </>
     );
 
   return (
-    <div className={`${themeClass}`}>
+    <div className={`${themeClass} min-h-screen`}>
       <BrowserRouter>
         <Toaster position="top-center" reverseOrder={false} />
         <Navbar />
