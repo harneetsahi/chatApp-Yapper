@@ -8,7 +8,7 @@ import {
 
 const messageRouter = Router();
 
-messageRouter.get("/recent-chats", authMiddleware, getRecentChats);
+messageRouter.get("/chats", authMiddleware, getRecentChats);
 
 messageRouter.get("/:id", authMiddleware, getMessages);
 

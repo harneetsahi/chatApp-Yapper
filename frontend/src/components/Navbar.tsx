@@ -1,11 +1,12 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import { useAuthStore } from "../store/useAuthStore";
-import ThemeIcon from "../icons/ThemeIcon";
 import ChatIcon from "../icons/ChatIcon";
 import LogoutIcon from "../icons/LogoutIcon";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import SunIcon from "../icons/SunIcon";
 import MoonIcon from "../icons/MoonIcon";
+import { themeClass } from "../lib/ThemeClass";
 
 function Navbar() {
   const { authUser, signout } = useAuthStore();
@@ -32,7 +33,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar dark:bg-zinc-900 dark:text-yellow-600 bg-orange-50 text-zinc-900 px-8 py-5">
+      <div className={`${themeClass} navbar px-8 py-5`}>
         <div className="flex-none">
           <ChatIcon />
         </div>

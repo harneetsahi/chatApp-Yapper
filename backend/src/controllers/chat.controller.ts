@@ -8,7 +8,7 @@ export const getRecentChats = async (req: Request, res: Response) => {
     const userId = req.user._id;
     const filterUsers = await User.find({ _id: { $ne: userId } }).select(
       "-password"
-    );
+    ); // not equal to userId
 
     res.status(200).json(filterUsers);
   } catch (error) {
