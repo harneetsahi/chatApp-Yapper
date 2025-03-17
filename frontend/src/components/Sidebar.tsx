@@ -1,14 +1,43 @@
-const defaultStyles = "py-4 px-5 border-b-1 border-gray-800";
+import { useEffect } from "react";
+import { useChatStore } from "../store/useChatStore";
+import Loader from "./Loader";
+import InboxIcon from "../icons/InboxIcon";
+
+const defaultStyles =
+  "py-4 md:px-5 px-2 border-b-1 dark:border-gray-800 border-orange-100";
 
 function Sidebar() {
+  const { getUsers, users, selectedUser, setSelectedUser } = useChatStore();
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <>
-      <div className={`w-50 border-r-1 border-gray-800  `}>
+      <aside className="rounded-lg w-1/3 md:w-1/5  overflow-hidden transition-all dark:bg-neutral-950/40 bg-orange-200/40">
         <section className="flex flex-col ">
-          <h2 className={`${defaultStyles}`}>All messages</h2>
-          <div className={`${defaultStyles}`}>chat 1</div>
+          <div className={`${defaultStyles} pl-3 flex gap-2 `}>
+            <InboxIcon />
+            <p>Inbox</p>
+          </div>
+          <div>
+            {users.map((user) => (
+              <button
+                key={user._id}
+                onClick={() => setSelectedUser(user)}
+                className={`${defaultStyles} w-full pl-4 h-15 overflow-hidden ${
+                  selectedUser?._id === user._id
+                    ? "bg-orange-50 dark:bg-zinc-950 transition-all"
+                    : ""
+                }`}
+              >
+                <div className="text-sm text-left">{user.firstName}</div>
+              </button>
+            ))}
+          </div>
         </section>
-      </div>
+      </aside>
     </>
   );
 }

@@ -4,7 +4,6 @@ import { useEffect } from "react";
 
 import { useAuthStore } from "./store/useAuthStore";
 
-import Dashboard from "./pages/Dashboard";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Home from "./pages/Home";
@@ -22,7 +21,7 @@ function App() {
   if (isCheckingAuth && !authUser)
     return (
       <>
-        <div className="flex  justify-center items-center ">
+        <div className="h-screen flex  justify-center items-center ">
           <Loader />
         </div>
       </>
@@ -44,11 +43,7 @@ function App() {
           ></Route>
           <Route
             path="/signin"
-            element={!authUser ? <Signin /> : <Navigate to="/dashboard" />}
-          ></Route>
-          <Route
-            path="/dashboard"
-            element={authUser ? <Dashboard /> : <Navigate to="/signin" />}
+            element={!authUser ? <Signin /> : <Navigate to="/" />}
           ></Route>
         </Routes>
       </BrowserRouter>

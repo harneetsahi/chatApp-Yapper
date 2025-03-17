@@ -1,16 +1,16 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import Button from "../components/Button";
+import Button from "./Button";
 import ArrowupIcon from "../icons/ArrowupIcon";
 import SmileyIcon from "../icons/SmileyIcon";
-import MessageInput from "../components/MessageInput";
-import MessageBubble from "../components/MessageBubble";
+import MessageInput from "./MessageInput";
+import MessageBubble from "./MessageBubble";
 import { useAuthStore } from "../store/useAuthStore";
 import { useState } from "react";
+import { useChatStore } from "../store/useChatStore";
 
 function ChatBox() {
-  const { authUser } = useAuthStore();
+  const { selectedUser, messages, getMessages } = useChatStore();
 
-  const [messages, setMessages] = useState<string[]>(["hi"]);
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
 
@@ -20,12 +20,14 @@ function ChatBox() {
   };
   return (
     <>
-      <div className="h-full">
-        <div className={`h-full flex flex-col justify-between px-7 `}>
-          <div>
-            <h1 className="text-md">Person's name</h1>
-          </div>
-          <section className="h-full flex flex-col justify-between mt-5">
+      <div className="h-full flex flex-col justify-between">
+        <div className="dark:bg-neutral-950/40 bg-orange-200/40 p-4">
+          <h1 className="text-md">
+            {selectedUser?.firstName} {selectedUser?.lastName}
+          </h1>
+        </div>
+        <div className={`h-full  md:px-7 p-2 `}>
+          <section className="h-full flex flex-col justify-between py-1 md:py-2 transition-all ">
             <div>
               <div>
                 {messages.map((message, index) => (
