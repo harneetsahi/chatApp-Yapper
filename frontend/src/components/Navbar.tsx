@@ -35,7 +35,7 @@ function Navbar() {
     <>
       <div className={`${themeClass} navbar px-8 py-5`}>
         <div className="flex-none">
-          <ChatIcon />
+          <ChatIcon className="size-6" />
         </div>
         <div className="flex-1">
           <Link to="/" className="text-lg font-semibold pl-2">
