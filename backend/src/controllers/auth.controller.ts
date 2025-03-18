@@ -37,11 +37,31 @@ export const signup = async (req: Request, res: Response) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    await User.create({ firstName, lastName, email, password: hashedPassword });
-
-    res.json({
-      message: "successfully signed up",
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
     });
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      `${process.env.JWT_SECRET}`,
+      { expiresIn: "7d" }
+    );
+
+    const options = {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+    };
+
+    res
+      .status(201)
+      .cookie("jwt", token, options)
+      .json({ message: "signed up successfully" });
   } catch (error) {
     res.status(400).json({
       message: "User already exists",

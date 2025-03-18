@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import { io, Socket } from "socket.io-client";
+
+const BASE_URL = "http://localhost:3000";
 
 export interface User {
   _id?: string;
@@ -15,23 +18,29 @@ interface IAuthStore {
   isSigningUp: boolean;
   isSigningIn: boolean;
   isCheckingAuth: boolean;
+  socket: null | Socket;
+
   checkAuth: () => Promise<void>;
   signup: (user: User) => Promise<void>;
 
   signin: (user: User) => void;
   signout: () => void;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
 }
 
-export const useAuthStore = create<IAuthStore>((set) => ({
+export const useAuthStore = create<IAuthStore>((set, get) => ({
   authUser: null,
   isSigningUp: false,
   isSigningIn: false,
   isCheckingAuth: true,
+  socket: null,
 
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
+      get().connectSocket();
     } catch (error) {
       console.log("error checking auth status ", error);
       set({ authUser: null });
@@ -49,6 +58,7 @@ export const useAuthStore = create<IAuthStore>((set) => ({
       set({ authUser: res.data });
       console.log(res.data);
       toast.success("Account created successfully");
+      get().connectSocket();
     } catch (error) {
       toast.error((error as Error).message);
     } finally {
@@ -63,6 +73,7 @@ export const useAuthStore = create<IAuthStore>((set) => ({
       set({ authUser: res.data });
       console.log(res);
       toast.success("Welcome to your account. Yap away!");
+      get().connectSocket();
     } catch (error) {
       console.log("error signing in", error);
       toast.error((error as Error).message);
@@ -75,9 +86,26 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     try {
       await axiosInstance.post("/auth/signout");
       set({ authUser: null });
+      get().disconnectSocket();
     } catch (error) {
       console.log(error);
       toast.error((error as Error).message);
     }
+  },
+
+  connectSocket: async () => {
+    const { authUser } = get();
+    if (!authUser || get().socket?.connected) return;
+
+    const socket = io(BASE_URL, { query: { userId: (authUser as User)._id } });
+    socket.connect();
+
+    set({ socket: socket });
+  },
+
+  disconnectSocket: async () => {
+    const socket = get().socket?.connected;
+    if (socket) get().socket?.disconnect();
+    set({ socket: null });
   },
 }));

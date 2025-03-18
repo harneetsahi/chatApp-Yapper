@@ -13,7 +13,14 @@ import { formatMessageTime } from "../lib/utils";
 
 function ChatBox() {
   const { authUser } = useAuthStore();
-  const { selectedUser, messages, getMessages, sendMessage } = useChatStore();
+  const {
+    selectedUser,
+    messages,
+    getMessages,
+    sendMessage,
+    fetchMessages,
+    closeMessages,
+  } = useChatStore();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
@@ -22,8 +29,11 @@ function ChatBox() {
   useEffect(() => {
     if (selectedUser?._id) {
       getMessages(selectedUser._id);
+      fetchMessages();
     }
-  }, [selectedUser, getMessages]);
+
+    return () => closeMessages();
+  }, [selectedUser?._id, getMessages, fetchMessages, closeMessages]);
 
   useEffect(() => {
     if (messagesEndRef.current && messages) {
@@ -45,10 +55,9 @@ function ChatBox() {
     }
 
     try {
-      const newMessage = await sendMessage({
+      await sendMessage({
         text: textField,
       });
-
       setTextField("");
     } catch (error) {
       console.log("failed to send message", error);
@@ -57,14 +66,14 @@ function ChatBox() {
 
   return (
     <>
-      <div className=" flex flex-col justify-between overflow-auto h-full">
+      <div className=" flex flex-col justify-between h-full ">
         <div className="dark:bg-neutral-950/40 bg-orange-200/40 p-4">
           <h1 className="text-md">
             {selectedUser?.firstName} {selectedUser?.lastName}
           </h1>
         </div>
-        <div className={`h-full md:px-7 p-2 flex-1 `}>
-          <section className="h-full flex flex-col justify-between py-1 md:py-2 transition-all">
+        <div className={`h-full md:px-7 p-2 flex-1 overflow-y-scroll `}>
+          <section className="h-full flex flex-col justify-between py-2 transition-all">
             <div className="h-full">
               <div className="overflow-y-auto h-full mx-2 ">
                 {messages.map((message, index) => (
@@ -77,13 +86,13 @@ function ChatBox() {
                         : "chat-start"
                     }`}
                   >
-                    <div className="chat-header">Harneet</div>
+                    {/* <div className="chat-header">Harneet</div> */}
                     <div
                       className={`${
                         message.senderId === (authUser as User)._id
-                          ? "dark:bg-zinc-800 bg-white rounded-br-none"
-                          : "dark:bg-amber-100 text-neutral-800 bg-orange-400 rounded-bl-none"
-                      } py-2 px-4 rounded-2xl `}
+                          ? " rounded-br-none"
+                          : " rounded-bl-none"
+                      } py-2 px-4 rounded-2xl dark:bg-zinc-800 bg-orange-200  dark:text-yellow-600`}
                     >
                       {message.text}
                     </div>

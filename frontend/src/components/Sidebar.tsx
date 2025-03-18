@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useChatStore } from "../store/useChatStore";
-import Loader from "./Loader";
 import InboxIcon from "../icons/InboxIcon";
 
 const defaultStyles =
@@ -15,7 +14,7 @@ function Sidebar() {
 
   return (
     <>
-      <aside className="rounded-lg w-1/3 md:w-1/5  overflow-hidden transition-all dark:bg-neutral-950/40 bg-orange-200/40">
+      <aside className="rounded-lg w-1/3 md:w-1/5  overflow-auto transition-all dark:bg-neutral-950/40 bg-orange-200/40">
         <section className="flex flex-col ">
           <div className={`${defaultStyles} pl-3 flex gap-2 `}>
             <InboxIcon />
@@ -26,7 +25,7 @@ function Sidebar() {
               <button
                 key={user._id}
                 onClick={() => setSelectedUser(user)}
-                className={`${defaultStyles} w-full pl-4 h-15 overflow-hidden ${
+                className={`${defaultStyles} w-full pl-4 h-15 ${
                   selectedUser?._id === user._id
                     ? "bg-orange-50 dark:bg-zinc-950 transition-all"
                     : ""

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user.model";
 import { Message } from "../models/message.model";
+import { getReceiverSocketId, io } from "../socket";
 
 export const getRecentChats = async (req: Request, res: Response) => {
   try {
@@ -43,11 +44,21 @@ export const sendMessage = async (req: Request, res: Response) => {
     // @ts-ignore
     const senderId = req.user._id;
 
-    const message = await Message.create({ senderId, receiverId, text });
-
-    res.status(200).json({
-      message: message.text,
+    const message = new Message({
+      senderId,
+      receiverId,
+      text,
     });
+
+    await message.save();
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("message", message);
+    }
+
+    res.status(201).json(message);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "internal server error" });
