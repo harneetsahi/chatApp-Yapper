@@ -36,7 +36,7 @@ function ChatBox() {
     setEmojiOpen(false);
   };
 
-  const handleSendMessage = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSendMessage = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!textField) {
@@ -45,7 +45,7 @@ function ChatBox() {
     }
 
     try {
-      await sendMessage({
+      const newMessage = await sendMessage({
         text: textField,
       });
 
@@ -57,19 +57,19 @@ function ChatBox() {
 
   return (
     <>
-      <div className="h-135 md:h-115 flex flex-col justify-between ">
+      <div className=" flex flex-col justify-between overflow-auto h-full">
         <div className="dark:bg-neutral-950/40 bg-orange-200/40 p-4">
           <h1 className="text-md">
             {selectedUser?.firstName} {selectedUser?.lastName}
           </h1>
         </div>
-        <div className={`h-full  md:px-7 p-2 flex-1 `}>
+        <div className={`h-full md:px-7 p-2 flex-1 `}>
           <section className="h-full flex flex-col justify-between py-1 md:py-2 transition-all">
             <div className="h-full">
               <div className="overflow-y-auto h-full mx-2 ">
-                {messages.map((message) => (
+                {messages.map((message, index) => (
                   <div
-                    key={message._id}
+                    key={message._id ?? index}
                     ref={messagesEndRef}
                     className={`chat flex flex-col ${
                       message.senderId === (authUser as User)._id
@@ -99,7 +99,7 @@ function ChatBox() {
               </div>
             </div>
 
-            <div className="flex items-center">
+            <form className="flex items-center" onSubmit={handleSendMessage}>
               <MessageInput
                 name="message"
                 id="message"
@@ -123,12 +123,8 @@ function ChatBox() {
                 />
               </div>
 
-              <Button
-                text={<ArrowupIcon />}
-                onClick={handleSendMessage}
-                variant="sendMessage"
-              />
-            </div>
+              <Button text={<ArrowupIcon />} variant="sendMessage" />
+            </form>
           </section>
         </div>
       </div>

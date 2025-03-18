@@ -39,7 +39,6 @@ export const useChatStore = create<IChatStore>((set, get) => ({
     try {
       const res = await axiosInstance.get("/message/chats");
       set({ users: res.data });
-      console.log(res);
     } catch (error) {
       toast.error((error as Error).message);
     }
@@ -64,7 +63,9 @@ export const useChatStore = create<IChatStore>((set, get) => ({
         `/message/send/${selectedUser?._id}`,
         messageData
       );
-      set({ messages: [...messages, res.data] });
+      console.log(messageData);
+      console.log(res.data.message);
+      set({ messages: [...messages, res.data.message] });
     } catch (error) {
       toast.error((error as Error).message);
     }

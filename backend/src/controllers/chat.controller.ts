@@ -46,7 +46,7 @@ export const sendMessage = async (req: Request, res: Response) => {
     const message = await Message.create({ senderId, receiverId, text });
 
     res.status(200).json({
-      message: "Message sent",
+      message: message.text,
     });
   } catch (error) {
     console.log(error);
