@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 
-interface User {
+export interface User {
+  _id?: string;
   firstName?: string;
   lastName?: string;
   email: string;
@@ -10,7 +11,7 @@ interface User {
 }
 
 interface IAuthStore {
-  authUser: string | null;
+  authUser: string | null | User;
   isSigningUp: boolean;
   isSigningIn: boolean;
   isCheckingAuth: boolean;

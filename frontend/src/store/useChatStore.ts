@@ -2,7 +2,7 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 
-interface User {
+interface IUser {
   _id?: string;
   firstName?: string;
   lastName?: string;
@@ -10,17 +10,26 @@ interface User {
   password?: string;
 }
 
+export interface IMessage {
+  _id?: string;
+  senderId?: string;
+  receiverId?: string;
+  text?: string;
+  createdAt?: string;
+}
+
 interface IChatStore {
-  users: User[];
-  messages: string[];
-  selectedUser: User | null;
+  users: IUser[];
+  messages: IMessage[];
+  selectedUser: IUser | null;
   isMessagesLoading: boolean;
   getUsers: () => void;
   getMessages: (id: string) => void;
-  setSelectedUser: ({}) => void;
+  sendMessage: (messageData: IMessage) => void;
+  setSelectedUser: (selectedUser: IUser | null) => void;
 }
 
-export const useChatStore = create<IChatStore>((set) => ({
+export const useChatStore = create<IChatStore>((set, get) => ({
   users: [],
   messages: [],
   selectedUser: null,
@@ -48,13 +57,18 @@ export const useChatStore = create<IChatStore>((set) => ({
     }
   },
 
-  // sendMessage: async (id, text) => {
-  //   try {
-  //     const res = await axiosInstance.post(`/message/send/${id}`, text);
-  //   } catch (error) {
-  //     toast.error((error as Error).message);
-  //   }
-  // },
+  sendMessage: async (messageData) => {
+    const { selectedUser, messages } = get();
+    try {
+      const res = await axiosInstance.post(
+        `/message/send/${selectedUser?._id}`,
+        messageData
+      );
+      set({ messages: [...messages, res.data] });
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  },
 
   setSelectedUser: (selectedUser) => set({ selectedUser }),
 }));

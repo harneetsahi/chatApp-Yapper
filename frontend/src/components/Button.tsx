@@ -5,7 +5,7 @@ interface ButtonProps {
   text: string | React.JSX.Element;
   type?: "submit" | "button";
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const variantStyles = {

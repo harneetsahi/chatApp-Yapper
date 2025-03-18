@@ -1,40 +1,104 @@
+import { useEffect, useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+
 import Button from "./Button";
+
+import MessageInput from "./MessageInput";
 import ArrowupIcon from "../icons/ArrowupIcon";
 import SmileyIcon from "../icons/SmileyIcon";
-import MessageInput from "./MessageInput";
-import MessageBubble from "./MessageBubble";
-import { useAuthStore } from "../store/useAuthStore";
-import { useState } from "react";
+
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore, User } from "../store/useAuthStore";
+import { formatMessageTime } from "../lib/utils";
 
 function ChatBox() {
-  const { selectedUser, messages, getMessages } = useChatStore();
+  const { authUser } = useAuthStore();
+  const { selectedUser, messages, getMessages, sendMessage } = useChatStore();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
+
+  useEffect(() => {
+    if (selectedUser?._id) {
+      getMessages(selectedUser._id);
+    }
+  }, [selectedUser, getMessages]);
+
+  useEffect(() => {
+    if (messagesEndRef.current && messages) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const handleEmoji = (e: EmojiClickData) => {
     setTextField((prev) => prev + e.emoji);
     setEmojiOpen(false);
   };
+
+  const handleSendMessage = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (!textField) {
+      document.getElementById("message")?.focus();
+      return;
+    }
+
+    try {
+      await sendMessage({
+        text: textField,
+      });
+
+      setTextField("");
+    } catch (error) {
+      console.log("failed to send message", error);
+    }
+  };
+
   return (
     <>
-      <div className="h-full flex flex-col justify-between">
+      <div className="h-135 md:h-115 flex flex-col justify-between ">
         <div className="dark:bg-neutral-950/40 bg-orange-200/40 p-4">
           <h1 className="text-md">
             {selectedUser?.firstName} {selectedUser?.lastName}
           </h1>
         </div>
-        <div className={`h-full  md:px-7 p-2 `}>
-          <section className="h-full flex flex-col justify-between py-1 md:py-2 transition-all ">
-            <div>
-              <div>
-                {messages.map((message, index) => (
-                  <MessageBubble key={index} message={message} />
+        <div className={`h-full  md:px-7 p-2 flex-1 `}>
+          <section className="h-full flex flex-col justify-between py-1 md:py-2 transition-all">
+            <div className="h-full">
+              <div className="overflow-y-auto h-full mx-2 ">
+                {messages.map((message) => (
+                  <div
+                    key={message._id}
+                    ref={messagesEndRef}
+                    className={`chat flex flex-col ${
+                      message.senderId === (authUser as User)._id
+                        ? "chat-end"
+                        : "chat-start"
+                    }`}
+                  >
+                    <div className="chat-header">Harneet</div>
+                    <div
+                      className={`${
+                        message.senderId === (authUser as User)._id
+                          ? "dark:bg-zinc-800 bg-white rounded-br-none"
+                          : "dark:bg-amber-100 text-neutral-800 bg-orange-400 rounded-bl-none"
+                      } py-2 px-4 rounded-2xl `}
+                    >
+                      {message.text}
+                    </div>
+                    <div>
+                      {message.createdAt && (
+                        <time className="text-xs opacity-50">
+                          {formatMessageTime(message.createdAt)}
+                        </time>
+                      )}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
+
             <div className="flex items-center">
               <MessageInput
                 name="message"
@@ -61,7 +125,7 @@ function ChatBox() {
 
               <Button
                 text={<ArrowupIcon />}
-                onClick={() => sendMessage()}
+                onClick={handleSendMessage}
                 variant="sendMessage"
               />
             </div>
