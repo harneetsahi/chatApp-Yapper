@@ -7,9 +7,10 @@ import LogoutIcon from "../icons/LogoutIcon";
 import SunIcon from "../icons/SunIcon";
 import MoonIcon from "../icons/MoonIcon";
 import { themeClass } from "../lib/ThemeClass";
+import SettingsIcon from "../icons/SettingsIcon";
 
 function Navbar() {
-  const { authUser, signout } = useAuthStore();
+  const { authUser, signout, openSettings } = useAuthStore();
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -18,6 +19,10 @@ function Navbar() {
 
   function handleLogout() {
     signout();
+  }
+
+  function handleSettings() {
+    openSettings();
   }
 
   useEffect(() => {
@@ -43,6 +48,9 @@ function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-4">
+          <button className="cursor-pointer" onClick={handleSettings}>
+            <SettingsIcon />
+          </button>
           <button title="Change Theme" onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? <SunIcon /> : <MoonIcon />}
           </button>

@@ -25,15 +25,23 @@ function ChatBox() {
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
+  const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
-    if (selectedUser?._id) {
+    setIsMounted(true);
+
+    if (authUser && selectedUser?._id) {
       getMessages(selectedUser._id);
       fetchMessages();
     }
 
-    return () => closeMessages();
-  }, [selectedUser?._id, getMessages, fetchMessages, closeMessages]);
+    return () => {
+      closeMessages();
+      setIsMounted(false);
+    };
+  }, [authUser, selectedUser?._id, getMessages, fetchMessages, closeMessages]);
+
+  if (!authUser) return null;
 
   useEffect(() => {
     if (messagesEndRef.current && messages) {
@@ -81,12 +89,11 @@ function ChatBox() {
                     key={message._id ?? index}
                     ref={messagesEndRef}
                     className={`chat flex flex-col ${
-                      message.senderId === (authUser as User)._id
+                      authUser && message.senderId === (authUser as User)._id
                         ? "chat-end"
                         : "chat-start"
                     }`}
                   >
-                    {/* <div className="chat-header">Harneet</div> */}
                     <div
                       className={`${
                         message.senderId === (authUser as User)._id

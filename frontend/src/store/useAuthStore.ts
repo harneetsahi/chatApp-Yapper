@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io, Socket } from "socket.io-client";
+import { useChatStore } from "./useChatStore";
 
 const BASE_URL = "http://localhost:3000";
 
@@ -25,6 +26,7 @@ interface IAuthStore {
 
   signin: (user: User) => void;
   signout: () => void;
+  openSettings: () => void;
   connectSocket: () => void;
   disconnectSocket: () => void;
 }
@@ -42,7 +44,6 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
-      console.log("error checking auth status ", error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -56,7 +57,6 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/signup", formData);
       set({ authUser: res.data });
-      console.log(res.data);
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
@@ -71,7 +71,6 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/signin", formData);
       set({ authUser: res.data });
-      console.log(res);
       toast.success("Welcome to your account. Yap away!");
       get().connectSocket();
     } catch (error) {
@@ -87,11 +86,15 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       await axiosInstance.post("/auth/signout");
       set({ authUser: null });
       get().disconnectSocket();
+      useChatStore.getState().resetChat();
+      return Promise.resolve();
     } catch (error) {
-      console.log(error);
       toast.error((error as Error).message);
+      return Promise.reject(error);
     }
   },
+
+  openSettings: () => {},
 
   connectSocket: async () => {
     const { authUser } = get();

@@ -24,12 +24,13 @@ interface IChatStore {
   messages: IMessage[];
   selectedUser: IUser | null;
 
-  getUsers: () => void;
-  getMessages: (id: string) => void;
-  sendMessage: (messageData: IMessage) => void;
+  getUsers: () => Promise<void>;
+  getMessages: (id: string) => Promise<void>;
+  sendMessage: (messageData: IMessage) => Promise<void>;
   fetchMessages: () => void;
   closeMessages: () => void;
   setSelectedUser: (selectedUser: IUser | null) => void;
+  resetChat: () => void;
 }
 
 export const useChatStore = create<IChatStore>((set, get) => ({
@@ -38,20 +39,27 @@ export const useChatStore = create<IChatStore>((set, get) => ({
   selectedUser: null,
 
   getUsers: async () => {
+    const authUser = useAuthStore.getState().authUser;
+    if (!authUser) return;
+
     try {
       const res = await axiosInstance.get("/message/chats");
       set({ users: res.data });
     } catch (error) {
-      toast.error((error as Error).message);
+      console.log((error as any).response.data);
     }
   },
 
   getMessages: async (id) => {
+    const authUser = useAuthStore.getState().authUser;
+    if (!authUser) return;
+
     try {
       const res = await axiosInstance.get(`/message/${id}`);
       set({ messages: res.data });
     } catch (error) {
-      toast.error((error as Error).message);
+      // toast.error((error as Error).message);
+      console.log((error as any).response.data);
     }
   },
 
@@ -72,8 +80,9 @@ export const useChatStore = create<IChatStore>((set, get) => ({
 
   fetchMessages: () => {
     const { selectedUser } = get();
+    const authUser = useAuthStore.getState().authUser;
 
-    if (!selectedUser) return;
+    if (!authUser || !selectedUser) return;
 
     const socket = useAuthStore.getState().socket;
 
@@ -90,4 +99,13 @@ export const useChatStore = create<IChatStore>((set, get) => ({
   },
 
   setSelectedUser: (selectedUser) => set({ selectedUser }),
+
+  resetChat: () => {
+    set({
+      users: [],
+      messages: [],
+      selectedUser: null,
+    });
+    get().closeMessages();
+  },
 }));
