@@ -25,9 +25,9 @@ export const signup = async (req: Request, res: Response) => {
 
   const parsedBody = requiredBody.safeParse(req.body);
   if (!parsedBody.success) {
-    res.json({
+    res.status(400).json({
       message: "Incorrect format",
-      error: parsedBody.error,
+      error: parsedBody.error.errors,
     });
   }
 
@@ -114,9 +114,16 @@ export const signin = async (req: Request, res: Response) => {
 
 export const signout = (req: Request, res: Response) => {
   try {
-    res.cookie("jwt", "", { maxAge: 0 }).status(200).json({
-      message: "logged out successfully",
-    });
+    res
+      .cookie("jwt", "", {
+        maxAge: 0,
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+      })
+      .status(200)
+      .json({
+        message: "logged out successfully",
+      });
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
@@ -128,9 +135,7 @@ export const checkAuth = (req: Request, res: Response) => {
   try {
     // @ts-ignore
     res.status(200).json(req.user);
-    return;
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
-    return;
   }
 };
