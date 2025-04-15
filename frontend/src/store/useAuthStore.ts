@@ -75,7 +75,7 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       get().connectSocket();
     } catch (error) {
       console.log("error signing in", error);
-      toast.error((error as Error).message);
+      toast.error("Incorrect credentials");
     } finally {
       set({ isSigningIn: false });
     }

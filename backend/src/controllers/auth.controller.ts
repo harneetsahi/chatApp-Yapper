@@ -97,10 +97,10 @@ export const signin = async (req: Request, res: Response) => {
           .cookie("jwt", token, options)
           .json({ message: "logged in successfully", email: user.email });
       } else {
-        res.json({ message: "Incorrect credentials" });
+        res.status(401).json({ message: "Incorrect credentials" });
       }
     } else {
-      res.json({
+      res.status(401).json({
         message: "User not found",
       });
     }
