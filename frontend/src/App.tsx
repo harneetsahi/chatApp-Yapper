@@ -34,7 +34,10 @@ function App() {
         <Toaster position="top-center" reverseOrder={false} />
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
+          <Route
+            path="/"
+            element={!authUser ? <Home /> : <Navigate to="/dashboard" />}
+          ></Route>
           <Route
             path="/dashboard"
             element={authUser ? <Dashboard /> : <Navigate to="/signin" />}
