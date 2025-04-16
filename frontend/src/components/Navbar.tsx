@@ -7,7 +7,6 @@ import LogoutIcon from "../icons/LogoutIcon";
 import SunIcon from "../icons/SunIcon";
 import MoonIcon from "../icons/MoonIcon";
 import { themeClass } from "../lib/ThemeClass";
-import SettingsIcon from "../icons/SettingsIcon";
 
 function Navbar() {
   const { authUser, signout, openSettings } = useAuthStore();
@@ -21,9 +20,9 @@ function Navbar() {
     signout();
   }
 
-  function handleSettings() {
-    openSettings();
-  }
+  // function handleSettings() {
+  //   openSettings();
+  // }
 
   useEffect(() => {
     const htmlElement = document.documentElement;
@@ -38,29 +37,57 @@ function Navbar() {
 
   return (
     <>
-      <div className={`${themeClass} navbar px-8 py-5`}>
-        <div className="flex-none">
-          <ChatIcon className="size-6" />
-        </div>
-        <div className="flex-1">
-          <Link to="/" className="text-lg font-semibold pl-2">
-            Yapper
-          </Link>
-        </div>
+      <div className={`${themeClass} px-8 py-5 flex justify-between`}>
+        <Link
+          to="/"
+          className=" text-lg font-semibold p-2 flex items-center gap-2"
+          title="Home Page"
+        >
+          <ChatIcon className="size-10 text-indigo-500" />
+          <p className="flex-1 text-2xl">Yapper</p>
+        </Link>
         <div className="flex items-center gap-4">
-          <button className="cursor-pointer" onClick={handleSettings}>
+          {/* <button className="cursor-pointer" onClick={handleSettings}>
             <SettingsIcon />
-          </button>
-          <button title="Change Theme" onClick={() => setDarkMode(!darkMode)}>
+          </button> */}
+          <button
+            title="Change Theme"
+            onClick={() => setDarkMode(!darkMode)}
+            className="hover:bg-gray-100 hover:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer"
+          >
             {darkMode ? <SunIcon /> : <MoonIcon />}
           </button>
-          <Link to="/signin" onClick={handleLogout} title="Logout">
-            {authUser && (
-              <div className="flex gap-2">
-                <LogoutIcon /> Logout
-              </div>
-            )}
-          </Link>
+
+          {authUser && (
+            <Link
+              to="/signin"
+              onClick={handleLogout}
+              title="Logout"
+              className="flex gap-2"
+            >
+              <LogoutIcon /> Logout
+            </Link>
+          )}
+
+          {!authUser && (
+            <Link
+              to="/signin"
+              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105"
+              title="Log in"
+            >
+              Log in
+            </Link>
+          )}
+
+          {!authUser && (
+            <Link
+              to="/signup"
+              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105"
+              title="Sign up"
+            >
+              Sign up
+            </Link>
+          )}
         </div>
       </div>
     </>

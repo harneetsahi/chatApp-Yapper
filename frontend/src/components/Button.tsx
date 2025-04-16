@@ -10,12 +10,12 @@ interface ButtonProps {
 
 const variantStyles = {
   primary:
-    "w-80 hover:scale-x-103 transition-all rounded-md px-4 py-2 text-gray-800",
+    "w-80 hover:scale-x-103 transition-all rounded-md px-4 py-2 bg-indigo-500  ",
   chat: "rounded-md px-4 py-2",
   sendMessage: "bg-transparent border-none ",
 };
 
-const defaultStyles = "border-1 border-gray-700 bg-gray-100  cursor-pointer";
+const defaultStyles = "bg-blue-100 text-white cursor-pointer";
 
 function Button({ variant, text, type, onClick, disabled }: ButtonProps) {
   return (
