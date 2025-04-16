@@ -128,12 +128,10 @@ function Signup() {
             <span className="border-t-1 border-gray-700 flex-1 h-.5 "></span>
           </div>
 
-          <div className="text-sm text-center ">
-            <span className=" dark:text-yellow-800 text-zinc-700 mr-1">
-              If you already have an account{" "}
-            </span>
+          <div className="text-sm text-center dark:text-gray-400 text-zinc-700 ">
+            <span className="   mr-1">If you already have an account </span>
             <Link
-              className="dark:text-yellow-600 text-zinc-900 hover:dark:text-yellow-400 hover:text-zinc-600"
+              className="0 hover:dark:text-indigo-200 hover:text-zinc-950"
               to="/signin"
             >
               Login
