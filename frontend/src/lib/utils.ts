@@ -3,5 +3,7 @@ export function formatMessageTime(data: string) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
+    day: "numeric",
+    month: "long",
   });
 }
