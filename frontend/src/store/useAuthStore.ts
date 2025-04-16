@@ -60,7 +60,7 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
-      toast.error((error as Error).message);
+      toast.error("Account already exists");
     } finally {
       set({ isSigningUp: false });
     }
