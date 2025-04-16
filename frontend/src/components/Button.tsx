@@ -15,7 +15,7 @@ const variantStyles = {
   sendMessage: "bg-transparent border-none ",
 };
 
-const defaultStyles = "bg-blue-100 text-white cursor-pointer";
+const defaultStyles = "bg-blue-100 cursor-pointer";
 
 function Button({ variant, text, type, onClick, disabled }: ButtonProps) {
   return (

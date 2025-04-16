@@ -3,9 +3,6 @@ import { useChatStore } from "../store/useChatStore";
 import InboxIcon from "../icons/InboxIcon";
 import { useAuthStore } from "../store/useAuthStore";
 
-const defaultStyles =
-  "py-4 md:px-5 px-2 border-b-1 dark:border-gray-800 border-orange-100";
-
 function Sidebar() {
   const { getUsers, users, selectedUser, setSelectedUser } = useChatStore();
   const { authUser } = useAuthStore();
@@ -18,10 +15,10 @@ function Sidebar() {
 
   return (
     <>
-      <aside className="rounded-lg w-1/3 md:w-1/5  overflow-auto transition-all ">
-        <section className="flex flex-col ">
+      <aside className=" w-1/3 md:w-1/5 overflow-auto dark:bg-zinc-900 bg-indigo-100">
+        <section className="flex flex-col px-3">
           <div
-            className={`${defaultStyles} pl-3 flex gap-2 dark:bg-neutral-950/40 bg-orange-200/40`}
+            className={`px-5 py-4 mb-2 flex gap-2 border-b-1 dark:border-zinc-700 border-indigo-50`}
           >
             <InboxIcon />
             <p>Inbox</p>
@@ -31,13 +28,15 @@ function Sidebar() {
               <button
                 key={user._id}
                 onClick={() => setSelectedUser(user)}
-                className={`${defaultStyles} w-full pl-4 h-15 dark:bg-neutral-950/20 bg-orange-200 cursor-pointer ${
+                className={`hover:dark:bg-zinc-800 hover:bg-indigo-50 px-3 py-4 w-full rounded-md border-1 dark:border-zinc-900 border-indigo-100 hover:border-indigo-200/50 hover:dark:border-zinc-700 cursor-pointer ${
                   selectedUser?._id === user._id
-                    ? "bg-orange-300 dark:bg-zinc-950 transition-all"
+                    ? "bg-indigo-50 dark:bg-zinc-800/70"
                     : ""
                 }`}
               >
-                <div className="text-sm text-left">{user.firstName}</div>
+                <div className="text-sm font-medium text-left h-full">
+                  {user.firstName} {user.lastName}
+                </div>
               </button>
             ))}
           </div>

@@ -51,6 +51,7 @@ function ChatBox() {
 
   const handleEmoji = (e: EmojiClickData) => {
     setTextField((prev) => prev + e.emoji);
+    document.getElementById("message")?.focus();
     setEmojiOpen(false);
   };
 
@@ -75,47 +76,56 @@ function ChatBox() {
   return (
     <>
       <div className=" flex flex-col justify-between h-full ">
-        <div className="dark:bg-neutral-950/40 bg-orange-200/40 p-4">
-          <h1 className="text-md">
+        <div className=" dark:bg-zinc-900 bg-indigo-100 p-4 ">
+          <h1 className="text-md font-medium">
             {selectedUser?.firstName} {selectedUser?.lastName}
           </h1>
         </div>
-        <div className={`h-full md:px-7 p-2 flex-1 overflow-y-scroll `}>
-          <section className="h-full flex flex-col justify-between py-2 transition-all">
+        <div
+          className={`h-full flex-1 overflow-y-scroll bg-indigo-50 dark:bg-zinc-800/70 `}
+        >
+          <section className="h-full flex flex-col justify-between pb-15  transition-all relative ">
             <div className="h-full">
-              <div className="overflow-y-auto h-full mx-2 ">
+              <div className="overflow-y-auto h-full ">
                 {messages.map((message, index) => (
                   <div
                     key={message._id ?? index}
                     ref={messagesEndRef}
-                    className={`chat flex flex-col ${
-                      authUser && message.senderId === (authUser as User)._id
-                        ? "chat-end"
-                        : "chat-start"
-                    }`}
+                    className={`py-2 md:px-8 px-3 border-b-1 border-indigo-100 dark:border-zinc-700/20 hover:bg-indigo-100 hover:dark:bg-zinc-900/70 `}
                   >
-                    <div
-                      className={`${
-                        message.senderId === (authUser as User)._id
-                          ? " rounded-br-none"
-                          : " rounded-bl-none"
-                      } py-2 px-4 rounded-2xl dark:bg-zinc-800 bg-orange-200  dark:text-yellow-600`}
-                    >
-                      {message.text}
-                    </div>
-                    <div>
-                      {message.createdAt && (
-                        <time className="text-xs opacity-50">
-                          {formatMessageTime(message.createdAt)}
-                        </time>
-                      )}
+                    <div className="flex">
+                      <div className="w-15 h-15 border-1 border-indigo-100 dark:border-zinc-700/50 rounded-lg text-3xl  text-indigo-500 flex justify-center items-center">
+                        {message.senderId === selectedUser?._id
+                          ? selectedUser?.firstName?.slice(0, 1)
+                          : (authUser as User)?.firstName?.slice(0, 1)}
+                      </div>
+                      <div className="pl-5 flex-1">
+                        <p className="text-md font-medium ">
+                          {message.senderId === selectedUser?._id
+                            ? selectedUser?.firstName
+                            : (authUser as User)?.firstName}
+                        </p>
+                        <div className=" flex justify-between ">
+                          <div className="py-2">{message.text}</div>
+                          <div className="">
+                            {message.createdAt && (
+                              <time className="text-xs opacity-50">
+                                {formatMessageTime(message.createdAt)}
+                              </time>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <form className="flex items-center" onSubmit={handleSendMessage}>
+            <form
+              className="flex items-center absolute bottom-0 left-0 right-0 px-5 pb-4 "
+              onSubmit={handleSendMessage}
+            >
               <MessageInput
                 name="message"
                 id="message"
@@ -126,7 +136,7 @@ function ChatBox() {
                 onChange={(e) => setTextField(e.target.value)}
               />
               <p
-                className="mx-1.5 text-3xl cursor-pointer relative"
+                className="mx-1.5 text-3xl cursor-pointer relative "
                 onClick={() => setEmojiOpen(!emojiOpen)}
               >
                 <SmileyIcon className={"absolute -left-11 -top-3"} />
@@ -134,7 +144,7 @@ function ChatBox() {
               <div className="emoji-container relative">
                 <EmojiPicker
                   open={emojiOpen}
-                  className="emoji-picker -right-25 sm:-right-0 bottom-8 transition-all "
+                  className="emoji-picker -right-15 sm:-right-0 bottom-8 transition-all "
                   onEmojiClick={handleEmoji}
                 />
               </div>

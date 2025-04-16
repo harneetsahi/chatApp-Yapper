@@ -37,7 +37,7 @@ function Navbar() {
 
   return (
     <>
-      <div className={`${themeClass} px-8 py-5 flex justify-between`}>
+      <div className={`${themeClass} px-8 py-3 flex justify-between`}>
         <Link
           to="/"
           className=" text-lg font-semibold p-2 flex items-center gap-2"
@@ -51,9 +51,8 @@ function Navbar() {
             <SettingsIcon />
           </button> */}
           <button
-            title="Change Theme"
             onClick={() => setDarkMode(!darkMode)}
-            className="hover:bg-gray-100 hover:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer"
+            className="hover:bg-white hover:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer"
           >
             {darkMode ? <SunIcon /> : <MoonIcon />}
           </button>
@@ -63,7 +62,7 @@ function Navbar() {
               to="/signin"
               onClick={handleLogout}
               title="Logout"
-              className="flex gap-2"
+              className="flex gap-2 p-2 hover:bg-white hover:dark:bg-zinc-800 rounded-lg "
             >
               <LogoutIcon /> Logout
             </Link>

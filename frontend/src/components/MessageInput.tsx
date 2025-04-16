@@ -26,7 +26,7 @@ function MessageInput({
 }: MessageInputProps) {
   return (
     <input
-      className={`${variantStyles[variant]} ${defaultStyles}`}
+      className={`${variantStyles[variant]} ${defaultStyles} `}
       type={type}
       name={name}
       id={id}
