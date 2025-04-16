@@ -22,7 +22,7 @@ function App() {
   if (isCheckingAuth && !authUser)
     return (
       <>
-        <div className="h-screen flex  justify-center items-center ">
+        <div className="h-screen flex justify-center items-center ">
           <Loader />
         </div>
       </>
@@ -32,7 +32,7 @@ function App() {
     <div className={`${themeClass} min-h-screen`}>
       <BrowserRouter>
         <Toaster position="top-center" reverseOrder={false} />
-        {location.pathname !== "/" && <Navbar />}
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route
