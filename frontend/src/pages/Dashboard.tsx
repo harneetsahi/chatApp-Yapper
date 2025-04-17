@@ -9,8 +9,8 @@ function Dashboard() {
     <>
       <div
         className="
-   h-[calc(100vh-82px)]
-       md:rounded-lg transition-all flex"
+   h-[calc(100vh-82px)] border-t-1 dark:border-zinc-800 border-indigo-100
+       md:rounded-lg  flex"
       >
         <Sidebar />
         <div className="flex-1 ">

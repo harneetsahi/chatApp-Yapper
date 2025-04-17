@@ -75,8 +75,8 @@ function ChatBox() {
 
   return (
     <>
-      <div className=" flex flex-col justify-between h-full ">
-        <div className=" dark:bg-zinc-900 bg-indigo-100 p-4 ">
+      <div className=" flex flex-col justify-between h-full  ">
+        <div className=" dark:bg-zinc-900 bg-indigo-100 p-4 pl-9 ">
           <h1 className="text-md font-medium">
             {selectedUser?.firstName} {selectedUser?.lastName}
           </h1>
@@ -91,7 +91,7 @@ function ChatBox() {
                   <div
                     key={message._id ?? index}
                     ref={messagesEndRef}
-                    className={`py-2 md:px-8 px-3 border-b-1 border-indigo-100 dark:border-zinc-700/20 hover:bg-indigo-100 hover:dark:bg-zinc-900/70 `}
+                    className={`py-2 md:px-8 px-3 border-b-1 border-indigo-100 dark:border-zinc-700/20 hover:bg-indigo-100/40 hover:dark:bg-zinc-900/20 `}
                   >
                     <div className="flex">
                       <div className="w-15 h-15 border-1 border-indigo-100 dark:border-zinc-700/50 rounded-lg text-3xl  text-indigo-500 flex justify-center items-center">
@@ -106,8 +106,8 @@ function ChatBox() {
                             : (authUser as User)?.firstName}
                         </p>
                         <div className=" flex justify-between ">
-                          <div className="py-2">{message.text}</div>
-                          <div className="">
+                          <div className="py-2 flex-1">{message.text}</div>
+                          <div className="md:w-30 w-15 text-right">
                             {message.createdAt && (
                               <time className="text-xs opacity-50">
                                 {formatMessageTime(message.createdAt)}

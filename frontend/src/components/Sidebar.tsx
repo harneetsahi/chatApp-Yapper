@@ -16,10 +16,8 @@ function Sidebar() {
   return (
     <>
       <aside className=" w-1/3 md:w-1/5 overflow-auto dark:bg-zinc-900 bg-indigo-100">
-        <section className="flex flex-col px-3">
-          <div
-            className={`px-5 py-4 mb-2 flex gap-2 border-b-1 dark:border-zinc-700 border-indigo-50`}
-          >
+        <section className="flex flex-col md:px-3 px-1">
+          <div className={`px-3 py-4 mb-2 flex gap-2 `}>
             <InboxIcon />
             <p>Inbox</p>
           </div>
