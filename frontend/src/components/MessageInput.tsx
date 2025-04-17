@@ -13,7 +13,7 @@ const variantStyles = {
   chat: "w-full font-light",
 };
 
-const defaultStyles = "border-1 border-gray-700 px-4 py-2 rounded-3xl";
+const defaultStyles = "border-1 border-gray-400 pl-4 pr-12 py-2 rounded-3xl";
 
 function MessageInput({
   type,
