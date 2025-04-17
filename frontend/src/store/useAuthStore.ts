@@ -23,7 +23,6 @@ interface IAuthStore {
 
   checkAuth: () => Promise<void>;
   signup: (user: User) => Promise<void>;
-
   signin: (user: User) => void;
   signout: () => void;
   openSettings: () => void;
@@ -49,8 +48,6 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       set({ isCheckingAuth: false });
     }
   },
-
-  // TODO : Find a way to navigate user to signin after signup
 
   signup: async (formData) => {
     set({ isSigningUp: true });
