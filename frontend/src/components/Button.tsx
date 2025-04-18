@@ -10,7 +10,7 @@ interface ButtonProps {
 
 const variantStyles = {
   primary:
-    "w-80 hover:scale-x-103 transition-all rounded-md px-4 py-2 bg-indigo-500  ",
+    "w-80 hover:scale-x-103 transition-all rounded-md px-4 py-2 bg-indigo-500 text-white  ",
   chat: "rounded-md px-4 py-2",
   sendMessage: "bg-transparent border-none ",
 };

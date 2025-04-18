@@ -6,7 +6,7 @@ import ChatIcon from "../icons/ChatIcon";
 import LogoutIcon from "../icons/LogoutIcon";
 import SunIcon from "../icons/SunIcon";
 import MoonIcon from "../icons/MoonIcon";
-import { themeClass } from "../lib/ThemeClass";
+import SettingsIcon from "../icons/SettingsIcon";
 
 function Navbar() {
   const { authUser, signout, openSettings } = useAuthStore();
@@ -20,9 +20,9 @@ function Navbar() {
     signout();
   }
 
-  // function handleSettings() {
-  //   openSettings();
-  // }
+  function handleSettings() {
+    openSettings();
+  }
 
   useEffect(() => {
     const htmlElement = document.documentElement;
@@ -37,7 +37,7 @@ function Navbar() {
 
   return (
     <>
-      <div className={`${themeClass} px-8 py-3 flex justify-between`}>
+      <div className={` px-8 py-3 flex justify-between`}>
         <Link
           to="/"
           className=" text-lg font-semibold p-2 flex items-center gap-2"
@@ -47,9 +47,9 @@ function Navbar() {
           <p className="flex-1 text-2xl">Yapper</p>
         </Link>
         <div className="flex items-center gap-4">
-          {/* <button className="cursor-pointer" onClick={handleSettings}>
+          <button className="cursor-pointer" onClick={handleSettings}>
             <SettingsIcon />
-          </button> */}
+          </button>
           <button
             onClick={() => setDarkMode(!darkMode)}
             className="hover:bg-white hover:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer"
@@ -62,7 +62,7 @@ function Navbar() {
               to="/signin"
               onClick={handleLogout}
               title="Logout"
-              className="flex gap-2 p-2 hover:bg-white hover:dark:bg-zinc-800 rounded-lg "
+              className="flex gap-2 p-2 hover:bg-white hover:dark:bg-zinc-800 rounded-lg transition-all "
             >
               <LogoutIcon /> Logout
             </Link>
@@ -71,7 +71,7 @@ function Navbar() {
           {!authUser && (
             <Link
               to="/signin"
-              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105"
+              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105  transition-all "
               title="Log in"
             >
               Log in
@@ -81,7 +81,7 @@ function Navbar() {
           {!authUser && (
             <Link
               to="/signup"
-              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105"
+              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105  transition-all "
               title="Sign up"
             >
               Sign up
