@@ -75,85 +75,99 @@ function ChatBox() {
 
   return (
     <>
-      <div className=" flex flex-col justify-between h-full  ">
-        <div className=" dark:bg-zinc-900 bg-indigo-100 p-4 pl-9 ">
-          <h1 className="text-md font-medium">
-            {selectedUser?.firstName} {selectedUser?.lastName}
-          </h1>
-        </div>
-        <div
-          className={`h-full flex-1 overflow-y-scroll bg-indigo-50 dark:bg-zinc-800/70 `}
-        >
-          <section className="h-full flex flex-col justify-between pb-15  transition-all relative ">
-            <div className="h-full">
-              <div className="overflow-y-auto h-full ">
-                {messages.map((message, index) => (
-                  <div
-                    key={message._id ?? index}
-                    ref={messagesEndRef}
-                    className={`py-2 md:px-8 px-3 border-b-1 border-indigo-100 dark:border-zinc-700/20 hover:bg-indigo-100/40 hover:dark:bg-zinc-900/20 `}
-                  >
-                    <div className="flex">
-                      <div className="w-15 h-15 border-1 border-indigo-100 dark:border-zinc-700/50 rounded-lg text-3xl  text-indigo-500 flex justify-center items-center">
-                        {message.senderId === selectedUser?._id
-                          ? selectedUser?.firstName?.slice(0, 1)
-                          : (authUser as User)?.firstName?.slice(0, 1)}
+      <section className="flex h-full">
+        <div className="flex-1 flex flex-col justify-between h-full">
+          <div className=" dark:bg-zinc-800/50 bg-indigo-100/50 p-4 pl-9 border-b-1 border-indigo-100 dark:border-zinc-800 ">
+            <h1 className="text-md font-medium">
+              {selectedUser?.firstName} {selectedUser?.lastName}
+            </h1>
+          </div>
+          <div className={`h-full flex-1 overflow-y-scroll `}>
+            <section className="h-full flex flex-col justify-between pb-16 relative bg-indigo-50 dark:bg-zinc-800/70 ">
+              <div className="h-full">
+                <div className="overflow-y-auto h-full ">
+                  {messages.map((message, index) => (
+                    <div
+                      key={message._id ?? index}
+                      ref={messagesEndRef}
+                      className={` chat flex flex-col py-4 md:px-8 px-3 
+                      ${
+                        authUser && message.senderId === (authUser as User)._id
+                          ? "chat-end"
+                          : "chat-start"
+                      }`}
+                    >
+                      <div
+                        className={`${
+                          message.senderId === (authUser as User)._id
+                            ? " rounded-br-none "
+                            : " rounded-bl-none "
+                        } min-w-10 py-3 px-4 rounded-2xl dark:bg-zinc-700/70 bg-indigo-200/50 dark:text-white `}
+                      >
+                        {message.text}
                       </div>
-                      <div className="pl-5 flex-1">
-                        <p className="text-md font-medium ">
-                          {message.senderId === selectedUser?._id
-                            ? selectedUser?.firstName
-                            : (authUser as User)?.firstName}
-                        </p>
-                        <div className=" flex justify-between ">
-                          <div className="py-2 flex-1">{message.text}</div>
-                          <div className="md:w-30 w-15 text-right">
-                            {message.createdAt && (
-                              <time className="text-xs opacity-50">
-                                {formatMessageTime(message.createdAt)}
-                              </time>
-                            )}
-                          </div>
-                        </div>
+                      <div>
+                        {message.createdAt && (
+                          <time className="text-xs opacity-50">
+                            {formatMessageTime(message.createdAt)}
+                          </time>
+                        )}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <form
-              className="flex items-center absolute bottom-0 left-0 right-0 px-5 pb-4 "
-              onSubmit={handleSendMessage}
-            >
-              <MessageInput
-                name="message"
-                id="message"
-                type="text"
-                variant="chat"
-                placeholder=""
-                value={textField}
-                onChange={(e) => setTextField(e.target.value)}
-              />
-              <p
-                className="mx-1.5 text-3xl cursor-pointer relative "
-                onClick={() => setEmojiOpen(!emojiOpen)}
+              <form
+                className="flex items-center absolute bottom-0 left-0 right-0 px-5 pb-5 "
+                onSubmit={handleSendMessage}
               >
-                <SmileyIcon className={"absolute -left-11 -top-3"} />
-              </p>
-              <div className="emoji-container relative">
-                <EmojiPicker
-                  open={emojiOpen}
-                  className="emoji-picker -right-15 sm:-right-0 bottom-8 transition-all "
-                  onEmojiClick={handleEmoji}
+                <MessageInput
+                  name="message"
+                  id="message"
+                  type="text"
+                  variant="chat"
+                  placeholder=""
+                  value={textField}
+                  onChange={(e) => setTextField(e.target.value)}
                 />
-              </div>
+                <p
+                  className="mx-1.5 text-3xl cursor-pointer relative "
+                  onClick={() => setEmojiOpen(!emojiOpen)}
+                >
+                  <SmileyIcon className={"absolute -left-11 -top-3"} />
+                </p>
+                <div className="emoji-container relative">
+                  <EmojiPicker
+                    open={emojiOpen}
+                    className="emoji-picker -right-15 sm:-right-0 bottom-8 transition-all "
+                    onEmojiClick={handleEmoji}
+                  />
+                </div>
 
-              <Button text={<ArrowupIcon />} variant="sendMessage" />
-            </form>
-          </section>
+                <Button text={<ArrowupIcon />} variant="sendMessage" />
+              </form>
+            </section>
+          </div>
         </div>
-      </div>
+        <div className="md:w-80 bg-indigo-100 dark:bg-zinc-900 flex flex-col items-center pt-20">
+          <p className="text-2xl">Your Profile</p>
+          <img src="" alt="" />
+
+          <div className="m-7 p-4 self-start">
+            <div className="mb-6">
+              <p className="font-semibold">Name</p>
+              <p className="opacity-50">
+                {(authUser as User).firstName} {(authUser as User).lastName}
+              </p>
+            </div>
+            <div>
+              <p className="font-semibold">Email</p>
+              <p className="opacity-50">{(authUser as User).email}</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
