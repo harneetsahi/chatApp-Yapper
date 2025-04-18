@@ -67,7 +67,9 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
     set({ isSigningIn: true });
     try {
       const res = await axiosInstance.post("/auth/signin", formData);
-      set({ authUser: res.data });
+      const authStatus = await axiosInstance.get("/auth/check");
+
+      set({ authUser: authStatus.data });
       toast.success("Welcome to your account. Yap away!");
       get().connectSocket();
     } catch (error) {
