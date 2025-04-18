@@ -37,7 +37,9 @@ function Navbar() {
 
   return (
     <>
-      <div className={` px-8 py-3 flex justify-between`}>
+      <div
+        className={` px-8 py-3 flex justify-between max-w-[calc(2150px)] m-auto`}
+      >
         <Link
           to="/"
           className=" text-lg font-semibold p-2 flex items-center gap-2"

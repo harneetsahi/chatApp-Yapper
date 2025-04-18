@@ -10,7 +10,7 @@ function Dashboard() {
       <div
         className="
    h-[calc(100vh-82px)] border-t-1 dark:border-zinc-800 border-indigo-100
-       md:rounded-lg  flex"
+       md:rounded-lg flex max-w-[calc(2150px)] m-auto"
       >
         <Sidebar />
         <div className="flex-1 ">
