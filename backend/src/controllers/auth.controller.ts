@@ -61,7 +61,12 @@ export const signup = async (req: Request, res: Response) => {
     res
       .status(201)
       .cookie("jwt", token, options)
-      .json({ message: "signed up successfully" });
+      .json({
+        message: "signed up successfully",
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      });
   } catch (error) {
     res.status(400).json({
       message: "User already exists",
@@ -92,10 +97,12 @@ export const signin = async (req: Request, res: Response) => {
           secure: process.env.NODE_ENV !== "development",
         };
 
-        res
-          .status(201)
-          .cookie("jwt", token, options)
-          .json({ message: "logged in successfully", email: user.email });
+        res.status(201).cookie("jwt", token, options).json({
+          message: "logged in successfully",
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        });
       } else {
         res.status(401).json({ message: "Incorrect credentials" });
       }
