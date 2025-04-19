@@ -3,7 +3,7 @@ import { useChatStore } from "../store/useChatStore";
 import InboxIcon from "../icons/InboxIcon";
 import { useAuthStore } from "../store/useAuthStore";
 
-function Sidebar() {
+function Sidebar({ className }: { className: string }) {
   const { getUsers, users, selectedUser, setSelectedUser } = useChatStore();
   const { authUser } = useAuthStore();
 
@@ -15,9 +15,11 @@ function Sidebar() {
 
   return (
     <>
-      <aside className=" w-1/3 md:w-1/5 overflow-auto dark:bg-zinc-900 bg-indigo-100">
-        <section className="flex flex-col md:px-3 px-1">
-          <div className={`px-3 py-4 mb-2 flex gap-2 `}>
+      <aside
+        className={`${className} overflow-auto  dark:border-zinc-800 border-indigo-100  `}
+      >
+        <section className="flex flex-col md:px-2 px-1">
+          <div className={` pl-11 pr-3 py-4 mb-2 flex gap-2 `}>
             <InboxIcon />
             <p>Inbox</p>
           </div>
@@ -26,15 +28,20 @@ function Sidebar() {
               <button
                 key={user._id}
                 onClick={() => setSelectedUser(user)}
-                className={`hover:dark:bg-zinc-800 hover:bg-indigo-50 px-3 py-4 w-full rounded-md border-1 dark:border-zinc-900 border-indigo-100 hover:border-indigo-200/50 hover:dark:border-zinc-700 cursor-pointer ${
+                className={`hover:dark:bg-zinc-800 hover:bg-indigo-50/70 px-3 py-4 w-full rounded-md cursor-pointer flex items-center gap-3 ${
                   selectedUser?._id === user._id
                     ? "bg-indigo-50 dark:bg-zinc-800/70"
                     : ""
                 }`}
               >
-                <div className="text-sm font-medium text-left h-full">
+                <img
+                  src=""
+                  alt=""
+                  className="w-7 h-7 rounded-full bg-gray-300"
+                />
+                <p className="text-sm font-medium text-left">
                   {user.firstName} {user.lastName}
-                </div>
+                </p>
               </button>
             ))}
           </div>

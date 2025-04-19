@@ -75,97 +75,81 @@ function ChatBox() {
 
   return (
     <>
-      <section className="flex h-full">
-        <div className="flex-1 flex flex-col justify-between h-full">
-          <div className=" dark:bg-zinc-800/50 bg-indigo-100/50 p-4 pl-9 border-b-1 border-indigo-100 dark:border-zinc-800 ">
-            <h1 className="text-md font-medium">
-              {selectedUser?.firstName} {selectedUser?.lastName}
-            </h1>
-          </div>
-          <div className={`h-full flex-1 overflow-y-scroll `}>
-            <section className="h-full flex flex-col justify-between pb-16 relative bg-indigo-50 dark:bg-zinc-800/70 ">
-              <div className="h-full">
-                <div className="overflow-y-auto h-full ">
-                  {messages.map((message, index) => (
-                    <div
-                      key={message._id ?? index}
-                      ref={messagesEndRef}
-                      className={` chat flex flex-col py-4 md:px-8 px-3 
+      <section className={`flex-1 flex flex-col justify-between h-full`}>
+        <div
+          className={` dark:bg-zinc-800/50 bg-indigo-50 p-4 pl-4 border-b-1 border-indigo-50 dark:border-zinc-800 flex items-center gap-3 `}
+        >
+          <img src="" alt="" className="w-7 h-7 rounded-full bg-gray-300" />
+          <h1 className="sm:text-md text-sm font-medium">
+            {selectedUser?.firstName} {selectedUser?.lastName}
+          </h1>
+        </div>
+        <div className={`h-full flex-1 overflow-y-scroll `}>
+          <section className="h-full flex flex-col justify-between pb-16 relative bg-indigo-50/20 dark:bg-zinc-800/70 ">
+            <div className="h-full">
+              <div className="overflow-y-auto h-full ">
+                {messages.map((message, index) => (
+                  <div
+                    key={message._id ?? index}
+                    ref={messagesEndRef}
+                    className={` chat flex flex-col py-4 md:px-5 px-3 
                       ${
                         authUser && message.senderId === (authUser as User)._id
                           ? "chat-end"
                           : "chat-start"
                       }`}
+                  >
+                    <div
+                      className={`${
+                        message.senderId === (authUser as User)._id
+                          ? " rounded-br-none "
+                          : " rounded-bl-none "
+                      } min-w-10 py-3 px-4 rounded-2xl dark:bg-zinc-700/70 bg-indigo-50 dark:text-white `}
                     >
-                      <div
-                        className={`${
-                          message.senderId === (authUser as User)._id
-                            ? " rounded-br-none "
-                            : " rounded-bl-none "
-                        } min-w-10 py-3 px-4 rounded-2xl dark:bg-zinc-700/70 bg-indigo-200/50 dark:text-white `}
-                      >
-                        {message.text}
-                      </div>
-                      <div>
-                        {message.createdAt && (
-                          <time className="text-xs opacity-50">
-                            {formatMessageTime(message.createdAt)}
-                          </time>
-                        )}
-                      </div>
+                      {message.text}
                     </div>
-                  ))}
-                </div>
+                    <div>
+                      {message.createdAt && (
+                        <time className="text-xs opacity-50">
+                          {formatMessageTime(message.createdAt)}
+                        </time>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <form
+              className="flex items-center absolute bottom-0 left-0 right-0 px-5 pb-5 "
+              onSubmit={handleSendMessage}
+            >
+              <MessageInput
+                name="message"
+                id="message"
+                type="text"
+                variant="chat"
+                placeholder=""
+                value={textField}
+                onChange={(e) => setTextField(e.target.value)}
+              />
+              <p
+                className="mx-1.5 text-3xl cursor-pointer relative "
+                onClick={() => setEmojiOpen(!emojiOpen)}
+              >
+                <SmileyIcon className={"absolute -left-11 -top-3"} />
+              </p>
+              <div className="emoji-container relative">
+                <EmojiPicker
+                  open={emojiOpen}
+                  className="emoji-picker -right-15 sm:-right-0 bottom-8 transition-all "
+                  onEmojiClick={handleEmoji}
+                />
               </div>
 
-              <form
-                className="flex items-center absolute bottom-0 left-0 right-0 px-5 pb-5 "
-                onSubmit={handleSendMessage}
-              >
-                <MessageInput
-                  name="message"
-                  id="message"
-                  type="text"
-                  variant="chat"
-                  placeholder=""
-                  value={textField}
-                  onChange={(e) => setTextField(e.target.value)}
-                />
-                <p
-                  className="mx-1.5 text-3xl cursor-pointer relative "
-                  onClick={() => setEmojiOpen(!emojiOpen)}
-                >
-                  <SmileyIcon className={"absolute -left-11 -top-3"} />
-                </p>
-                <div className="emoji-container relative">
-                  <EmojiPicker
-                    open={emojiOpen}
-                    className="emoji-picker -right-15 sm:-right-0 bottom-8 transition-all "
-                    onEmojiClick={handleEmoji}
-                  />
-                </div>
-
-                <Button text={<ArrowupIcon />} variant="sendMessage" />
-              </form>
-            </section>
-          </div>
-        </div>
-        <div className="md:w-80 bg-indigo-100 dark:bg-zinc-900 flex flex-col items-center pt-20">
-          <p className="text-2xl">Your Profile</p>
-          <img src="" alt="" />
-
-          <div className="m-7 p-4 self-start">
-            <div className="mb-6">
-              <p className="font-semibold">Name</p>
-              <p className="opacity-50">
-                {(authUser as User).firstName} {(authUser as User).lastName}
-              </p>
-            </div>
-            <div>
-              <p className="font-semibold">Email</p>
-              <p className="opacity-50">{(authUser as User).email}</p>
-            </div>
-          </div>
+              <Button text={<ArrowupIcon />} variant="sendMessage" />
+            </form>
+          </section>
         </div>
       </section>
     </>

@@ -7,9 +7,11 @@ import LogoutIcon from "../icons/LogoutIcon";
 import SunIcon from "../icons/SunIcon";
 import MoonIcon from "../icons/MoonIcon";
 import SettingsIcon from "../icons/SettingsIcon";
+import SettingsDropdown from "./SettingsDropdown";
 
 function Navbar() {
   const { authUser, signout, openSettings } = useAuthStore();
+  const [showDropdown, setDropdown] = useState(false);
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -21,6 +23,7 @@ function Navbar() {
   }
 
   function handleSettings() {
+    setDropdown((prev) => !prev);
     openSettings();
   }
 
@@ -38,23 +41,29 @@ function Navbar() {
   return (
     <>
       <div
-        className={` px-8 py-3 flex justify-between max-w-[calc(2150px)] m-auto`}
+        className={`px-2 py-3 flex justify-between max-w-[calc(1350px)] m-auto`}
       >
         <Link
           to="/"
           className=" text-lg font-semibold p-2 flex items-center gap-2"
           title="Home Page"
         >
-          <ChatIcon className="size-10 text-indigo-500" />
+          <ChatIcon className="size-10 text-indigo-400" />
           <p className="flex-1 text-2xl">Yapper</p>
         </Link>
-        <div className="flex items-center gap-4">
-          <button className="cursor-pointer" onClick={handleSettings}>
-            <SettingsIcon />
-          </button>
+        <div className="flex items-center lg:gap-4 gap-0">
+          {authUser && (
+            <button
+              className="hover:bg-indigo-50 hover:dark:bg-zinc-800  p-2 rounded-lg cursor-pointer relative"
+              onClick={handleSettings}
+            >
+              <SettingsIcon />
+              {showDropdown && <SettingsDropdown />}
+            </button>
+          )}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="hover:bg-white hover:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer"
+            className="hover:bg-indigo-50 hover:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer"
           >
             {darkMode ? <SunIcon /> : <MoonIcon />}
           </button>
@@ -64,7 +73,7 @@ function Navbar() {
               to="/signin"
               onClick={handleLogout}
               title="Logout"
-              className="flex gap-2 p-2 hover:bg-white hover:dark:bg-zinc-800 rounded-lg transition-all "
+              className="flex gap-2 p-2 hover:bg-indigo-50 hover:dark:bg-zinc-800 rounded-lg transition-all "
             >
               <LogoutIcon /> Logout
             </Link>
