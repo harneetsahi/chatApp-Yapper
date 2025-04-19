@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useAuthStore } from "../store/useAuthStore";
@@ -8,10 +8,12 @@ import SunIcon from "../icons/SunIcon";
 import MoonIcon from "../icons/MoonIcon";
 import SettingsIcon from "../icons/SettingsIcon";
 import SettingsDropdown from "./SettingsDropdown";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 function Navbar() {
   const { authUser, signout, openSettings } = useAuthStore();
-  const [showDropdown, setDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const settingsRef = useRef(null);
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -23,9 +25,15 @@ function Navbar() {
   }
 
   function handleSettings() {
-    setDropdown((prev) => !prev);
-    openSettings();
+    setShowDropdown((prev) => !prev);
+    // openSettings();
   }
+
+  function handleClickOutside() {
+    setShowDropdown(false);
+  }
+
+  useOutsideClick(settingsRef, handleClickOutside);
 
   useEffect(() => {
     const htmlElement = document.documentElement;
@@ -51,10 +59,11 @@ function Navbar() {
           <ChatIcon className="size-10 text-indigo-400" />
           <p className="flex-1 text-2xl">Yapper</p>
         </Link>
-        <div className="flex items-center lg:gap-4 gap-0">
+        <div className="flex items-center lg:gap-4 gap-2">
           {authUser && (
             <button
-              className="hover:bg-indigo-50 hover:dark:bg-zinc-800  p-2 rounded-lg cursor-pointer relative"
+              ref={settingsRef}
+              className="hover:bg-indigo-50 hover:dark:bg-zinc-800 focus:bg-indigo-50 focus:dark:bg-zinc-800   p-2 rounded-lg cursor-pointer relative"
               onClick={handleSettings}
             >
               <SettingsIcon />
