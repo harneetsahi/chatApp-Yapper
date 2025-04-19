@@ -77,9 +77,9 @@ function ChatBox() {
     <>
       <section className={`flex-1 flex flex-col justify-between h-full`}>
         <div
-          className={` dark:bg-zinc-800/50 bg-indigo-50 p-4 pl-4 border-b-1 border-indigo-50 dark:border-zinc-800 flex items-center gap-3 `}
+          className={` dark:bg-zinc-800/50 bg-indigo-100/90 py-5 pl-14 border-b-1 border-indigo-50 dark:border-zinc-800 flex items-center gap-3 `}
         >
-          <img src="" alt="" className="w-7 h-7 rounded-full bg-gray-300" />
+          {/* <img src="" alt="" className="w-7 h-7 rounded-full bg-gray-300" /> */}
           <h1 className="sm:text-md text-sm font-medium">
             {selectedUser?.firstName} {selectedUser?.lastName}
           </h1>
@@ -95,8 +95,8 @@ function ChatBox() {
                     className={` chat flex flex-col py-4 md:px-5 px-3 
                       ${
                         authUser && message.senderId === (authUser as User)._id
-                          ? "chat-end"
-                          : "chat-start"
+                          ? "chat-end pl-8"
+                          : "chat-start pr-6"
                       }`}
                   >
                     <div
