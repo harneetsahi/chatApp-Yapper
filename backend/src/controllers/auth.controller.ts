@@ -3,6 +3,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model";
+import cloudinary from "../lib/cloudinary";
 
 export const signup = async (req: Request, res: Response) => {
   const requiredBody = z.object({
@@ -58,15 +59,14 @@ export const signup = async (req: Request, res: Response) => {
       secure: process.env.NODE_ENV !== "development",
     };
 
-    res
-      .status(201)
-      .cookie("jwt", token, options)
-      .json({
-        message: "signed up successfully",
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      });
+    res.status(201).cookie("jwt", token, options).json({
+      message: "signed up successfully",
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      profilePicture: user.profilePicture,
+    });
   } catch (error) {
     res.status(400).json({
       message: "User already exists",
@@ -99,9 +99,11 @@ export const signin = async (req: Request, res: Response) => {
 
         res.status(201).cookie("jwt", token, options).json({
           message: "logged in successfully",
+          _id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
+          profilePicture: user.profilePicture,
         });
       } else {
         res.status(401).json({ message: "Incorrect credentials" });
@@ -142,6 +144,35 @@ export const checkAuth = (req: Request, res: Response) => {
   try {
     // @ts-ignore
     res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const { image } = req.body;
+
+    console.log("backend image check " + image);
+
+    // @ts-ignore
+    const userId = req.user._id;
+
+    if (!image) {
+      res.status(400).json({ message: "Profile picture is required" });
+      return;
+    }
+
+    const imageResponse = await cloudinary.uploader.upload(image);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        profilePicture: imageResponse.secure_url,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
