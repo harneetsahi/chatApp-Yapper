@@ -25,7 +25,7 @@ function Signin() {
 
   return (
     <>
-      <div className="flex flex-col items-center h-[calc(700px)] justify-center">
+      <div className="flex flex-col items-center h-[calc(100vh-130px)] justify-center">
         <h1 className="text-2xl">Log in</h1>
 
         <section className="mt-10">

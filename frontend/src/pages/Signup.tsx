@@ -36,7 +36,7 @@ function Signup() {
 
   return (
     <>
-      <div className="flex flex-col items-center h-[calc(700px)] justify-center">
+      <div className="flex flex-col items-center h-[calc(100vh-80px)] justify-center">
         <h1 className="text-2xl">Create an account</h1>
 
         <section className="my-10 flex flex-col ">
