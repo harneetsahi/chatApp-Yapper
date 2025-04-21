@@ -14,9 +14,7 @@ const messageSchema = new Schema(
     },
     text: {
       type: String,
-    },
-    image: {
-      type: String,
+      required: true,
     },
   },
   { timestamps: true }
