@@ -9,6 +9,7 @@ interface IUser {
   lastName?: string;
   email?: string;
   password?: string;
+  avatar?: string;
 }
 
 export interface IMessage {
