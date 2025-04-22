@@ -1,35 +1,22 @@
 import { Request, Response } from "express";
-import { z } from "zod";
+import {
+  zodSigninValidation,
+  zodSignupValidation,
+  zodPasswordValidation,
+} from "../lib/zodValidation";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model";
-import cloudinary from "../lib/cloudinary";
+import { uploadOnCloudinary } from "../lib/cloudinary";
 
 export const signup = async (req: Request, res: Response) => {
-  const requiredBody = z.object({
-    firstName: z.string().min(3).max(50),
-    lastName: z.string().min(2).max(50),
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(8)
-      .max(16)
-      .refine(
-        (value) =>
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\d\s]).+$/.test(value),
-        {
-          message:
-            "Password must be atleast 8 characters long with max 15 characters and have at least one uppercase letter, one lowercase letter, one special character, and one number",
-        }
-      ),
-  });
-
-  const parsedBody = requiredBody.safeParse(req.body);
+  const parsedBody = zodSignupValidation.safeParse(req.body);
   if (!parsedBody.success) {
     res.status(400).json({
       message: "Incorrect format",
       error: parsedBody.error.errors,
     });
+    return;
   }
 
   ////!SECTION
@@ -37,6 +24,15 @@ export const signup = async (req: Request, res: Response) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 8);
+
+    const checkExistingUser = await User.findOne({ email });
+
+    if (checkExistingUser) {
+      res.status(409).json({
+        message: "User already exists",
+      });
+      return;
+    }
 
     const user = await User.create({
       firstName,
@@ -65,16 +61,25 @@ export const signup = async (req: Request, res: Response) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      profilePicture: user.profilePicture,
+      avatar: user.avatar,
     });
   } catch (error) {
-    res.status(400).json({
-      message: "User already exists",
+    res.status(500).json({
+      message: "Something went wrong. Please try again",
     });
   }
 };
 
 export const signin = async (req: Request, res: Response) => {
+  const parsedBody = zodSigninValidation.safeParse(req.body);
+  if (!parsedBody.success) {
+    res.status(400).json({
+      message: "Incorrect format",
+      error: parsedBody.error.errors,
+    });
+    return;
+  }
+
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -103,7 +108,7 @@ export const signin = async (req: Request, res: Response) => {
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
-          profilePicture: user.profilePicture,
+          avatar: user.avatar,
         });
       } else {
         res.status(401).json({ message: "Incorrect credentials" });
@@ -116,7 +121,7 @@ export const signin = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "internal server error",
+      message: "Internal server error",
     });
   }
 };
@@ -124,7 +129,7 @@ export const signin = async (req: Request, res: Response) => {
 export const signout = (req: Request, res: Response) => {
   try {
     res
-      .cookie("jwt", "", {
+      .clearCookie("jwt", {
         maxAge: 0,
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
@@ -151,28 +156,92 @@ export const checkAuth = (req: Request, res: Response) => {
 
 export const updateProfile = async (req: Request, res: Response) => {
   try {
-    const { image } = req.body;
-
-    console.log("backend image check " + image);
-
     // @ts-ignore
     const userId = req.user._id;
 
-    if (!image) {
+    const localPath = req.file?.path;
+
+    if (!localPath) {
       res.status(400).json({ message: "Profile picture is required" });
       return;
     }
 
-    const imageResponse = await cloudinary.uploader.upload(image);
+    const uploadedAvatar = await uploadOnCloudinary(localPath);
+
+    if (!uploadedAvatar) {
+      res.status(400).json({ message: "Image could not be uploaded" });
+      return;
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
-        profilePicture: imageResponse.secure_url,
+        avatar: uploadedAvatar?.url,
       },
       { new: true }
-    );
+    ).select("-password");
 
     res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error });
+  }
+};
+
+export const updatePassword = async (req: Request, res: Response) => {
+  // @ts-ignore
+  const userId = req.user._id;
+
+  const parsedBody = zodPasswordValidation.safeParse(req.body);
+
+  if (!parsedBody.success) {
+    res.status(400).json({
+      message: "Incorrect format",
+      error: parsedBody.error.errors,
+    });
+    return;
+  }
+
+  const { oldPassword, newPassword, confirmNewPassword } = req.body;
+
+  if (!(newPassword === confirmNewPassword)) {
+    res.status(400).json({
+      message: "New passwords must match",
+    });
+    return;
+  }
+
+  if (oldPassword === newPassword) {
+    res.status(400).json({
+      message: "New password cannot be the same as old password",
+    });
+    return;
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(401).json({
+        message: "User not found",
+      });
+      return;
+    }
+
+    const matchPassword = await bcrypt.compare(oldPassword, user.password);
+
+    if (!matchPassword) {
+      res.status(401).json({
+        message: "Incorrect credentials",
+      });
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 8);
+
+    user.password = hashedPassword;
+    await user.save({ validateBeforeSave: false });
+
+    res.status(200).json({ message: "Password successfully updated" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
