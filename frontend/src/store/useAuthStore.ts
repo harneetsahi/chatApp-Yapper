@@ -1,7 +1,8 @@
+import axios from "axios";
 import { create } from "zustand";
-import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io, Socket } from "socket.io-client";
+import { axiosInstance } from "../lib/axios";
 import { useChatStore } from "./useChatStore";
 
 const BASE_URL = "http://localhost:3000";
@@ -12,12 +13,15 @@ export interface User {
   lastName?: string;
   email: string;
   password: string;
+  avatar?: any;
 }
 
 interface IAuthStore {
-  authUser: string | null | User;
+  authUser: null | User;
   isSigningUp: boolean;
   isSigningIn: boolean;
+  isUpdatingProfile: boolean;
+  isUpdatingPassword: boolean;
   isCheckingAuth: boolean;
   socket: null | Socket;
 
@@ -25,7 +29,8 @@ interface IAuthStore {
   signup: (user: User) => Promise<void>;
   signin: (user: User) => void;
   signout: () => void;
-  openSettings: () => void;
+  updateProfile: (image: any) => void;
+  updatePassword: (password: {}) => void;
   connectSocket: () => void;
   disconnectSocket: () => void;
 }
@@ -34,6 +39,8 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
   authUser: null,
   isSigningUp: false,
   isSigningIn: false,
+  isUpdatingProfile: false,
+  isUpdatingPassword: false,
   isCheckingAuth: true,
   socket: null,
 
@@ -56,8 +63,10 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       set({ authUser: res.data });
       toast.success("Account created successfully");
       get().connectSocket();
-    } catch (error) {
-      toast.error("Account already exists");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
     } finally {
       set({ isSigningUp: false });
     }
@@ -67,13 +76,10 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
     set({ isSigningIn: true });
     try {
       const res = await axiosInstance.post("/auth/signin", formData);
-      const authStatus = await axiosInstance.get("/auth/check");
-
-      set({ authUser: authStatus.data });
+      set({ authUser: res.data });
       toast.success("Welcome to your account. Yap away!");
       get().connectSocket();
     } catch (error) {
-      console.log("error signing in", error);
       toast.error("Incorrect credentials");
     } finally {
       set({ isSigningIn: false });
@@ -93,7 +99,42 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
     }
   },
 
-  openSettings: () => {},
+  updateProfile: async (file) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      const res = await axiosInstance.patch("/auth/updateProfile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      set({ authUser: res.data });
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      toast.error("Profile update failed");
+      console.log(error);
+    } finally {
+      set({ isUpdatingProfile: false });
+    }
+  },
+
+  updatePassword: async (formData) => {
+    set({ isUpdatingPassword: true });
+
+    try {
+      await axiosInstance.post("/auth/updatePassword", formData);
+      toast.success("Password updated successfully");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
+    } finally {
+      set({ isUpdatingPassword: false });
+    }
+  },
 
   connectSocket: async () => {
     const { authUser } = get();
