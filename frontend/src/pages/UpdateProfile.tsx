@@ -1,0 +1,78 @@
+import { useState } from "react";
+import { useAuthStore, User } from "../store/useAuthStore";
+import CameraIcon from "../icons/CameraIcon";
+import ArrowBackIcon from "../icons/ArrowBackIcon";
+import { Link } from "react-router-dom";
+import PersonIcon from "../icons/PersonIcon";
+import MailIcon from "../icons/MailIcon";
+
+function UpdateProfilePage() {
+  const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
+
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleImageUpload = async (e: any) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setSelectedImage(URL.createObjectURL(file));
+
+    await updateProfile(file);
+  };
+
+  return (
+    <>
+      <div className="flex flex-col items-center gap-5 pt-18 max-w-[calc(1350px)] m-auto  border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
+        <span>
+          <Link
+            to="/dashboard"
+            className="px-5 py-2 text-sm rounded-lg dark:bg-zinc-800/60 bg-indigo-100 hover:dark:bg-zinc-800 hover:scale-x-103 absolute top-5 left-5 flex gap-2 items-center cursor-pointer transition-all"
+          >
+            Back <ArrowBackIcon className="size-4" />{" "}
+          </Link>
+        </span>
+        <p className="md:text-2xl text-xl font-medium mb-3">Your Profile</p>
+        <div className="relative mb-4">
+          <img
+            src={selectedImage || authUser?.avatar}
+            alt=""
+            className="w-40 h-40 rounded-full"
+          />
+          <label
+            htmlFor="avatar"
+            className="absolute right-4 bottom-2 dark:bg-zinc-900 bg-white p-1.5 rounded-full cursor-pointer  "
+          >
+            <CameraIcon className="size-6" />
+            <input
+              type="file"
+              name="avatar"
+              id="avatar"
+              className="hidden"
+              accept="image"
+              onChange={handleImageUpload}
+              disabled={isUpdatingProfile}
+            />
+          </label>
+        </div>
+        <div className=" transition-all flex flex-col gap-4 w-80  ">
+          <div className="flex flex-col gap-2">
+            {" "}
+            <p className="font-medium">Name</p>
+            <p className="opacity-50 border-1 border-gray-700 rounded-md px-4 py-2 flex items-center gap-3">
+              <PersonIcon /> {(authUser as User).firstName}{" "}
+              {(authUser as User).lastName}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <p className="font-medium">Email</p>
+            <p className="opacity-50 border-1  border-gray-700 rounded-md px-4 py-2 flex items-center gap-3">
+              <MailIcon /> {(authUser as User).email}
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default UpdateProfilePage;
