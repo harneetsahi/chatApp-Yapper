@@ -11,6 +11,8 @@ import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 import { themeClass } from "./lib/ThemeClass";
 import Dashboard from "./pages/Dashboard";
+import UpdateProfilePage from "./pages/UpdateProfile";
+import UpdatePasswordPage from "./pages/UpdatePassword";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -29,7 +31,7 @@ function App() {
     );
 
   return (
-    <div className={`${themeClass} min-h-screen selection:bg-blue-600/40`}>
+    <div className={`${themeClass}  min-h-screen  selection:bg-blue-600/40 `}>
       <BrowserRouter>
         <Toaster position="top-center" reverseOrder={false} />
         <Navbar />
@@ -49,6 +51,18 @@ function App() {
           <Route
             path="/signin"
             element={!authUser ? <Signin /> : <Navigate to="/dashboard" />}
+          ></Route>
+          <Route
+            path="/updateProfile"
+            element={
+              authUser ? <UpdateProfilePage /> : <Navigate to="/signin" />
+            }
+          ></Route>
+          <Route
+            path="/updatePassword"
+            element={
+              authUser ? <UpdatePasswordPage /> : <Navigate to="/signin" />
+            }
           ></Route>
         </Routes>
       </BrowserRouter>
