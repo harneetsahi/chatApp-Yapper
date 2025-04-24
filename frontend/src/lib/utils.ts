@@ -1,9 +1,6 @@
-export function formatMessageTime(data: string) {
-  return new Date(data).toLocaleString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    day: "numeric",
-    month: "long",
-  });
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }
