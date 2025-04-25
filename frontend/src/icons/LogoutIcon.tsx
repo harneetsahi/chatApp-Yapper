@@ -1,4 +1,4 @@
-function LogoutIcon() {
+function LogoutIcon({ className }: { className: string }) {
   return (
     <>
       <svg
@@ -7,7 +7,7 @@ function LogoutIcon() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6"
+        className={className}
       >
         <path
           strokeLinecap="round"

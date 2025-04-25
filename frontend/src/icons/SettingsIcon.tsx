@@ -1,4 +1,4 @@
-function SettingsIcon() {
+function SettingsIcon({ className }: { className: string }) {
   return (
     <>
       <svg
@@ -7,7 +7,7 @@ function SettingsIcon() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6"
+        className={className}
       >
         <path
           strokeLinecap="round"

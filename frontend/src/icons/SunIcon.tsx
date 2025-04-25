@@ -1,4 +1,4 @@
-function SunIcon() {
+function SunIcon({ className }: { className: string }) {
   return (
     <>
       <svg
@@ -7,7 +7,7 @@ function SunIcon() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6"
+        className={className}
       >
         <path
           strokeLinecap="round"
