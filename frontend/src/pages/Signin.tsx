@@ -26,9 +26,9 @@ function Signin() {
   return (
     <>
       <div className="flex flex-col items-center h-[calc(100vh-130px)] justify-center">
-        <h1 className="text-2xl">Log in</h1>
+        <h1 className="md:text-2xl text-xl transition-all">Log in</h1>
 
-        <section className="mt-10">
+        <section className="my-8 ">
           <form
             action=""
             className="mt-5 flex flex-col gap-5"
@@ -46,6 +46,7 @@ function Signin() {
               name="email"
               maxLength={50}
               required={true}
+              className={"border-1"}
             />
             <div className="flex relative">
               <Input

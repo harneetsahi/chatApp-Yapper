@@ -11,7 +11,7 @@ import SettingsDropdown from "./SettingsDropdown";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 
 function Navbar() {
-  const { authUser, signout, openSettings } = useAuthStore();
+  const { authUser, signout } = useAuthStore();
   const [showDropdown, setShowDropdown] = useState(false);
   const settingsRef = useRef(null);
 
@@ -26,7 +26,6 @@ function Navbar() {
 
   function handleSettings() {
     setShowDropdown((prev) => !prev);
-    // openSettings();
   }
 
   function handleClickOutside() {
@@ -49,64 +48,65 @@ function Navbar() {
   return (
     <>
       <div
-        className={`px-2 py-3 flex justify-between max-w-[calc(1350px)] m-auto`}
+        className={`px-1  md:px-5 py-3 w-full max-w-[calc(1350px)] sticky z-1000 mx-auto sm:text-lg text-sm `}
       >
-        <Link
-          to="/"
-          className=" text-lg font-semibold p-2 flex items-center gap-2"
-          title="Home Page"
-        >
-          <ChatIcon className="size-10 text-indigo-400" />
-          <p className="flex-1 text-2xl">Yapper</p>
-        </Link>
-        <div className="flex items-center lg:gap-4 gap-2">
-          {authUser && (
-            <button
-              ref={settingsRef}
-              className="hover:bg-indigo-50 hover:dark:bg-zinc-800 focus:bg-indigo-50 focus:dark:bg-zinc-800   p-2 rounded-lg cursor-pointer relative"
-              onClick={handleSettings}
-            >
-              <SettingsIcon />
-              {showDropdown && <SettingsDropdown />}
-            </button>
-          )}
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="hover:bg-indigo-50 hover:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer"
+        <div className="flex justify-between w-full ">
+          <Link
+            to="/"
+            className="p-2 flex items-center gap-2"
+            title="Home Page"
           >
-            {darkMode ? <SunIcon /> : <MoonIcon />}
-          </button>
-
-          {authUser && (
-            <Link
-              to="/signin"
-              onClick={handleLogout}
-              title="Logout"
-              className="flex gap-2 p-2 hover:bg-indigo-50 hover:dark:bg-zinc-800 rounded-lg transition-all "
+            <ChatIcon className="md:size-8 size-7 text-indigo-500 " />
+            <p className="flex-1 font-semibold md:text-2xl text-xl text-indigo-500 ">
+              Yapper
+            </p>
+          </Link>
+          <div className="flex items-center md:gap-2 gap-0.5 transition-all ">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="hover:bg-indigo-50/50 hover:dark:bg-zinc-800  p-2 rounded-lg cursor-pointer"
+              name="Change theme"
             >
-              <LogoutIcon /> Logout
-            </Link>
-          )}
+              {darkMode ? (
+                <SunIcon className="md:size-6 size-5" />
+              ) : (
+                <MoonIcon className="md:size-6 size-5" />
+              )}
+            </button>
 
-          {!authUser && (
-            <Link
-              to="/signin"
-              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105  transition-all "
-              title="Log in"
-            >
-              Log in
-            </Link>
-          )}
+            {authUser && (
+              <button
+                ref={settingsRef}
+                className="hover:bg-indigo-50/50 hover:dark:bg-zinc-800 focus:bg-indigo-50/50 focus:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer relative"
+                onClick={handleSettings}
+                name="Settings"
+              >
+                <SettingsIcon className="md:size-6 size-5" />
+                {showDropdown && <SettingsDropdown />}
+              </button>
+            )}
 
-          {!authUser && (
-            <Link
-              to="/signup"
-              className="bg-indigo-500 text-white py-2 px-5 rounded-3xl hover:scale-x-105  transition-all "
-              title="Sign up"
-            >
-              Sign up
-            </Link>
-          )}
+            {authUser && (
+              <Link
+                to="/signin"
+                onClick={handleLogout}
+                title="Logout"
+                className="flex items-center md:gap-2 gap-1 p-2 hover:bg-indigo-50/50 hover:dark:bg-zinc-800 rounded-lg transition-all "
+              >
+                <LogoutIcon className="md:size-6 size-5" /> Logout
+              </Link>
+            )}
+
+            {!authUser && (
+              <Link
+                to="/signin"
+                className="border-2 border-indigo-500 dark:text-white text-zinc-900 py-1.5 md:px-5 px-4 text-center rounded-3xl hover:bg-indigo-500 hover:text-white mr-2  transition-all "
+                title="Log in"
+              >
+                Log in
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </>
