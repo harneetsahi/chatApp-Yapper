@@ -34,7 +34,7 @@ function Input({
   return (
     <>
       <label
-        className={`input validator border-1 border-gray-300 dark:border-gray-800 dark:bg-zinc-800/40 bg-neutral-50  ${className}`}
+        className={`input validator border-1 border-gray-300 dark:border-gray-800 dark:bg-zinc-800/40 bg-indigo-50/50 ${className}`}
       >
         {icon}
         <input

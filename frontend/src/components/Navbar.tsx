@@ -48,7 +48,7 @@ function Navbar() {
   return (
     <>
       <div
-        className={`px-1  md:px-5 py-3 w-full max-w-[calc(1350px)] sticky z-1000 mx-auto sm:text-lg text-sm `}
+        className={`px-1  md:px-5 py-3 w-full max-w-[calc(1250px)] sticky z-1000 mx-auto sm:text-md text-sm `}
       >
         <div className="flex justify-between w-full ">
           <Link
@@ -61,14 +61,14 @@ function Navbar() {
               Yapper
             </p>
           </Link>
-          <div className="flex items-center md:gap-2 gap-0.5 transition-all ">
+          <div className=" flex items-center md:gap-2 gap-0.5 transition-all ">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="hover:bg-indigo-50/50 hover:dark:bg-zinc-800  p-2 rounded-lg cursor-pointer"
+              className=" hover:text-indigo-500  p-2 rounded-lg cursor-pointer"
               name="Change theme"
             >
               {darkMode ? (
-                <SunIcon className="md:size-6 size-5" />
+                <SunIcon className="md:size-6 size-5 " />
               ) : (
                 <MoonIcon className="md:size-6 size-5" />
               )}
@@ -77,11 +77,11 @@ function Navbar() {
             {authUser && (
               <button
                 ref={settingsRef}
-                className="hover:bg-indigo-50/50 hover:dark:bg-zinc-800 focus:bg-indigo-50/50 focus:dark:bg-zinc-800 p-2 rounded-lg cursor-pointer relative"
+                className="  p-2 rounded-lg cursor-pointer relative"
                 onClick={handleSettings}
                 name="Settings"
               >
-                <SettingsIcon className="md:size-6 size-5" />
+                <SettingsIcon className="md:size-6 size-5 hover:text-indigo-500 focus:text-indigo-500" />
                 {showDropdown && <SettingsDropdown />}
               </button>
             )}
@@ -91,7 +91,7 @@ function Navbar() {
                 to="/signin"
                 onClick={handleLogout}
                 title="Logout"
-                className="flex items-center md:gap-2 gap-1 p-2 hover:bg-indigo-50/50 hover:dark:bg-zinc-800 rounded-lg transition-all "
+                className="flex items-center md:gap-2 gap-1 p-2 hover:text-indigo-500  rounded-lg  "
               >
                 <LogoutIcon className="md:size-6 size-5" /> Logout
               </Link>
@@ -100,7 +100,7 @@ function Navbar() {
             {!authUser && (
               <Link
                 to="/signin"
-                className="border-2 border-indigo-500 dark:text-white text-zinc-900 py-1.5 md:px-5 px-4 text-center rounded-3xl hover:bg-indigo-500 hover:text-white mr-2  transition-all "
+                className="border-1 border-indigo-500 dark:text-white text-zinc-900 py-1.5 md:px-5 px-4 text-center rounded-3xl hover:bg-indigo-500 hover:text-white mr-2  transition-all "
                 title="Log in"
               >
                 Log in

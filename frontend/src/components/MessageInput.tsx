@@ -3,17 +3,17 @@ interface MessageInputProps {
   name: string;
   id: string;
   placeholder: string;
-  variant: "primary" | "chat";
+  variant: "primary";
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
 }
 
 const variantStyles = {
-  primary: "w-100 hover:scale-x-103 transition-all",
-  chat: "w-full font-light",
+  primary: "w-full  transition-all",
 };
 
-const defaultStyles = "border-1 border-gray-400 pl-4 pr-12 py-2 rounded-3xl";
+const defaultStyles =
+  "border-1 dark:border-zinc-700 border-indigo-200 pl-4 pr-12 py-2 rounded-3xl";
 
 function MessageInput({
   type,
@@ -26,7 +26,7 @@ function MessageInput({
 }: MessageInputProps) {
   return (
     <input
-      className={`${variantStyles[variant]} ${defaultStyles} `}
+      className={`${variantStyles[variant]} ${defaultStyles}  `}
       type={type}
       name={name}
       id={id}
