@@ -6,12 +6,13 @@ import Button from "./Button";
 import MessageInput from "./MessageInput";
 import ArrowupIcon from "../icons/ArrowupIcon";
 import SmileyIcon from "../icons/SmileyIcon";
+import defaultProfile from "../public/profile.png";
 
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore, User } from "../store/useAuthStore";
-import { formatMessageTime } from "../lib/utils";
+import { formatMessageTime } from "../lib/utilityFunctions";
 
-function ChatBox() {
+function ChatBox({ showSidebar }: { showSidebar: boolean }) {
   const { authUser } = useAuthStore();
   const {
     selectedUser,
@@ -77,26 +78,32 @@ function ChatBox() {
     <>
       <section className={`flex-1 flex flex-col justify-between h-full`}>
         <div
-          className={` dark:bg-zinc-800/50 bg-indigo-100/90 py-5 pl-14 border-b-1 border-indigo-50 dark:border-zinc-800 flex items-center gap-3 `}
+          className={` dark:bg-zinc-900/30 bg-indigo-50/80 pt-4 pb-4 ${
+            showSidebar ? "pl-6" : "pl-13"
+          } border-b-1 border-indigo-50/40 dark:border-zinc-900 flex items-center gap-3 `}
         >
-          {/* <img src="" alt="" className="w-7 h-7 rounded-full bg-gray-300" /> */}
-          <h1 className="sm:text-md text-sm font-medium">
+          <img
+            src={selectedUser?.avatar || defaultProfile}
+            alt=""
+            className="w-7 h-7 rounded-full bg-gray-300"
+          />
+          <h1 className="sm:text-md text-sm font-semibold">
             {selectedUser?.firstName} {selectedUser?.lastName}
           </h1>
         </div>
         <div className={`h-full flex-1 overflow-y-scroll `}>
-          <section className="h-full flex flex-col justify-between pb-16 relative bg-indigo-50/20 dark:bg-zinc-800/70 ">
+          <section className="h-full flex flex-col justify-between pb-16 relative bg-indigo-50/10  dark:bg-zinc-900/50 ">
             <div className="h-full">
               <div className="overflow-y-auto h-full ">
                 {messages.map((message, index) => (
                   <div
                     key={message._id ?? index}
                     ref={messagesEndRef}
-                    className={` chat flex flex-col py-4 md:px-5 px-3 
+                    className={` chat flex flex-col py-1 md:px-5 px-3 
                       ${
                         authUser && message.senderId === (authUser as User)._id
-                          ? "chat-end pl-8"
-                          : "chat-start pr-6"
+                          ? "chat-end ml-15"
+                          : "chat-start mr-15"
                       }`}
                   >
                     <div
@@ -104,7 +111,7 @@ function ChatBox() {
                         message.senderId === (authUser as User)._id
                           ? " rounded-br-none "
                           : " rounded-bl-none "
-                      } min-w-10 py-3 px-4 rounded-2xl dark:bg-zinc-700/70 bg-indigo-50 dark:text-white `}
+                      } min-w-10 py-3 px-4 rounded-2xl dark:bg-zinc-800/70 bg-indigo-100/60  text-sm tracking-wide  `}
                     >
                       {message.text}
                     </div>
@@ -128,13 +135,13 @@ function ChatBox() {
                 name="message"
                 id="message"
                 type="text"
-                variant="chat"
+                variant="primary"
                 placeholder=""
                 value={textField}
                 onChange={(e) => setTextField(e.target.value)}
               />
               <p
-                className="mx-1.5 text-3xl cursor-pointer relative "
+                className="mx-1.5 cursor-pointer relative "
                 onClick={() => setEmojiOpen(!emojiOpen)}
               >
                 <SmileyIcon className={"absolute -left-11 -top-3"} />
