@@ -26,13 +26,13 @@ function UpdateProfilePage() {
         <span>
           <Link
             to="/dashboard"
-            className="px-5 py-2 text-sm rounded-lg dark:bg-zinc-800/60 bg-indigo-100 hover:dark:bg-zinc-800 hover:scale-x-103 absolute top-5 left-5 flex gap-2 items-center cursor-pointer transition-all"
+            className="px-5 py-2 text-sm rounded-sm dark:bg-zinc-800/60 bg-indigo-50/50 hover:scale-103 absolute top-5 left-5 flex gap-2 items-center cursor-pointer transition-all border-1 dark:border-zinc-800 border-indigo-100  shadow-xs"
           >
             Back <ArrowBackIcon className="size-4" />{" "}
           </Link>
         </span>
-        <p className="md:text-2xl text-xl font-medium mb-3">Your Profile</p>
-        <div className="relative mb-4">
+        <p className="text-xl font-medium mb-3">Your Profile</p>
+        <div className="relative mb-5">
           <img
             src={selectedImage || authUser?.avatar}
             alt=""
@@ -54,18 +54,17 @@ function UpdateProfilePage() {
             />
           </label>
         </div>
-        <div className=" transition-all flex flex-col gap-4 w-80  ">
+        <div className=" transition-all flex flex-col gap-4 w-80">
           <div className="flex flex-col gap-2">
-            {" "}
             <p className="font-medium">Name</p>
-            <p className="opacity-50 border-1 border-gray-700 rounded-md px-4 py-2 flex items-center gap-3">
+            <p className=" border-1 dark:border-zinc-800 border-indigo-50 rounded-sm px-4 py-2 flex items-center gap-3 dark:bg-zinc-800/40 bg-indigo-50/50 ">
               <PersonIcon /> {(authUser as User).firstName}{" "}
               {(authUser as User).lastName}
             </p>
           </div>
           <div className="flex flex-col gap-2">
             <p className="font-medium">Email</p>
-            <p className="opacity-50 border-1  border-gray-700 rounded-md px-4 py-2 flex items-center gap-3">
+            <p className="border-1  dark:border-zinc-800 border-indigo-50 rounded-sm px-4 py-2 flex items-center gap-3 dark:bg-zinc-800/40 bg-indigo-50/50 ">
               <MailIcon /> {(authUser as User).email}
             </p>
           </div>

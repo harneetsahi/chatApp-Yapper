@@ -27,18 +27,18 @@ function UpdatePasswordPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-5 pt-18 max-w-[calc(1350px)] m-auto  border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
+      <div className="flex flex-col items-center gap-5 pt-24 max-w-[calc(1350px)] mx-auto border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
         <span>
           <Link
             to="/dashboard"
-            className="px-5 py-2 text-sm rounded-lg dark:bg-zinc-800/60 bg-indigo-100 hover:dark:bg-zinc-800 hover:scale-x-103 absolute top-5 left-5 flex gap-2 items-center cursor-pointer transition-all"
+            className="px-5 py-2 text-sm rounded-sm dark:bg-zinc-800/60 bg-indigo-50/50 hover:scale-103 absolute top-5 left-5 flex gap-2 items-center cursor-pointer transition-all border-1 dark:border-zinc-800 border-indigo-100  shadow-xs"
           >
             Back <ArrowBackIcon className="size-4" />{" "}
           </Link>
         </span>
-        <p className="md:text-2xl text-xl font-medium">Change your password</p>
+        <p className="text-xl font-medium">Change your password</p>
 
-        <form className=" transition-all flex flex-col items-center gap-5 p-5  rounded-lg ">
+        <form className=" transition-all flex flex-col items-center gap-5 p-5  rounded-sm ">
           <Input
             icon={<PasswordIcon />}
             type={showPassword ? "text" : "password"}
@@ -54,6 +54,7 @@ function UpdatePasswordPage() {
             pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,16}$"
             title="Must be 8 to 16 letters long, including 1 number, 1 lowercase letter, 1 uppercase letter, 1 special character"
             required={true}
+            className="dark:border-zinc-800 border-indigo-50 "
           />
           <Input
             icon={<PasswordIcon />}
@@ -70,6 +71,7 @@ function UpdatePasswordPage() {
             pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,16}$"
             title="Must be 8 to 16 letters long, including 1 number, 1 lowercase letter, 1 uppercase letter, 1 special character"
             required={true}
+            className="dark:border-zinc-800 border-indigo-50 "
           />
           <Input
             icon={<PasswordIcon />}
@@ -86,14 +88,16 @@ function UpdatePasswordPage() {
             pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s]).{8,16}$"
             title="Must be 8 to 16 letters long, including 1 number, 1 lowercase letter, 1 uppercase letter, 1 special character"
             required={true}
+            className="dark:border-zinc-800 border-indigo-50 mb-3 "
           />
 
           <Button
             disabled={isUpdatingPassword}
             type="submit"
-            variant="primary"
+            variant="secondary"
             text={isUpdatingPassword ? <Loader /> : "Update"}
             onClick={handleUpdatePassword}
+            name="Update password"
           ></Button>
         </form>
       </div>
