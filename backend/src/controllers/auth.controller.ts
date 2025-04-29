@@ -7,7 +7,7 @@ import {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model";
-import { uploadOnCloudinary } from "../lib/cloudinary";
+import { uploadOnCloudinary, deleteFromCloudinary } from "../lib/cloudinary";
 
 export const signup = async (req: Request, res: Response) => {
   const parsedBody = zodSignupValidation.safeParse(req.body);
@@ -166,6 +166,18 @@ export const updateProfile = async (req: Request, res: Response) => {
       return;
     }
 
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    if (user.avatar !== "") {
+      const publicId = user.avatar.split("/").slice(-1)[0].split(".")[0];
+      const result = await deleteFromCloudinary(publicId);
+    }
+
     const uploadedAvatar = await uploadOnCloudinary(localPath);
 
     if (!uploadedAvatar) {
@@ -177,6 +189,46 @@ export const updateProfile = async (req: Request, res: Response) => {
       userId,
       {
         avatar: uploadedAvatar?.url,
+      },
+      { new: true }
+    ).select("-password");
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error });
+  }
+};
+
+export const removeAvatar = async (req: Request, res: Response) => {
+  // @ts-ignore
+  const userId = req.user._id;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    if (user.avatar === "") {
+      res.status(400).json({ message: "Nothing to delete" });
+      return;
+    }
+
+    const publicId = user.avatar.split("/").slice(-1)[0].split(".")[0];
+
+    const result = await deleteFromCloudinary(publicId);
+
+    if (!result) {
+      res.status(400).json({ message: "Avatar could not be deleted" });
+      return;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        avatar: "",
       },
       { new: true }
     ).select("-password");
