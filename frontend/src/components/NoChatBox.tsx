@@ -7,7 +7,6 @@ function NoChatBox() {
         <div className="animate-bounce">
           <ChatIcon className={"size-12"} />
         </div>
-        <div className="mt-2">Yap away!</div>
       </div>
     </>
   );
