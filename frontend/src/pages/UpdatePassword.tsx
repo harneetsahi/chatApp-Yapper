@@ -27,7 +27,7 @@ function UpdatePasswordPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-5 pt-24 max-w-[calc(1350px)] mx-auto border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
+      <div className="flex flex-col items-center gap-5 pt-24 max-w-[calc(1250px)] mx-auto border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
         <span>
           <Link
             to="/dashboard"

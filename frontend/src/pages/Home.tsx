@@ -7,7 +7,7 @@ function Home() {
   return (
     <>
       <main>
-        <div className="max-w-[calc(1350px)] pt-50 h-[calc(100vh-200px)] ">
+        <div className="max-w-[calc(1350px)] mx-auto pt-35 h-[calc(100vh-200px)] ">
           <div className=" transition-all flex flex-col gap-1 items-center justify-center ">
             <p className={`${textStyles}`}>A place for</p>
             <p className={`${textStyles}`}>people who</p>
@@ -27,7 +27,7 @@ function Home() {
             {/* {!authUser && ( */}
             <Link
               to="/signup"
-              className="  bg-indigo-500 text-white  py-1.5 md:px-5 px-4 rounded-3xl hover:scale-103 transition-all "
+              className="  bg-indigo-500 text-white  py-2 md:px-5 px-4 rounded-3xl hover:scale-103 transition-all "
               title="Sign up"
             >
               Get started
