@@ -6,6 +6,7 @@ import {
   checkAuth,
   updateProfile,
   updatePassword,
+  removeAvatar,
 } from "../controllers/auth.controller";
 import authMiddleware from "../middleware/auth.middleware";
 import { upload } from "../middleware/multer.middleware";
@@ -21,6 +22,7 @@ authRouter.patch(
   upload.single("avatar"),
   updateProfile
 );
+authRouter.delete("/removeAvatar", authMiddleware, removeAvatar);
 authRouter.get("/check", authMiddleware, checkAuth);
 authRouter.post("/updatePassword", authMiddleware, updatePassword);
 
