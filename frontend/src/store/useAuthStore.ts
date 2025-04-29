@@ -30,6 +30,7 @@ interface IAuthStore {
   signin: (user: User) => void;
   signout: () => void;
   updateProfile: (image: any) => void;
+  removeAvatar: () => void;
   updatePassword: (password: {}) => void;
   connectSocket: () => void;
   disconnectSocket: () => void;
@@ -115,9 +116,20 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       toast.success("Profile updated successfully");
     } catch (error) {
       toast.error("Profile update failed");
-      console.log(error);
     } finally {
       set({ isUpdatingProfile: false });
+    }
+  },
+
+  removeAvatar: async () => {
+    try {
+      const res = await axiosInstance.delete("/auth/removeAvatar");
+      set({ authUser: res.data });
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
     }
   },
 
