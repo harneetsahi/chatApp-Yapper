@@ -1,2 +1,2 @@
 export const themeClass =
-  "dark:bg-zinc-900 dark:text-white  bg-white font-lato text-zinc-800  ";
+  "dark:bg-zinc-950 dark:text-zinc-200  bg-white font-lato text-zinc-800  ";
