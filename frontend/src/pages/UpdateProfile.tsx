@@ -5,9 +5,12 @@ import ArrowBackIcon from "../icons/ArrowBackIcon";
 import { Link } from "react-router-dom";
 import PersonIcon from "../icons/PersonIcon";
 import MailIcon from "../icons/MailIcon";
+import defaultProfile from "../public/profile.png";
+import Button from "@/components/Button";
 
 function UpdateProfilePage() {
-  const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
+  const { authUser, isUpdatingProfile, updateProfile, removeAvatar } =
+    useAuthStore();
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -17,12 +20,18 @@ function UpdateProfilePage() {
 
     setSelectedImage(URL.createObjectURL(file));
 
-    await updateProfile(file);
+    updateProfile(file);
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+
+    removeAvatar();
   };
 
   return (
     <>
-      <div className="flex flex-col items-center gap-5 pt-18 max-w-[calc(1350px)] m-auto  border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
+      <div className="flex flex-col items-center gap-5 pt-18 max-w-[calc(1250px)] m-auto  border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
         <span>
           <Link
             to="/dashboard"
@@ -32,15 +41,15 @@ function UpdateProfilePage() {
           </Link>
         </span>
         <p className="text-xl font-medium mb-3">Your Profile</p>
-        <div className="relative mb-5">
+        <div className="relative ">
           <img
-            src={selectedImage || authUser?.avatar}
+            src={selectedImage || authUser?.avatar || defaultProfile}
             alt=""
-            className="w-40 h-40 rounded-full"
+            className="w-40 h-40 rounded-full border-1"
           />
           <label
             htmlFor="avatar"
-            className="absolute right-4 bottom-2 dark:bg-zinc-900 bg-white p-1.5 rounded-full cursor-pointer  "
+            className="absolute right-4 bottom-2 dark:bg-zinc-900 bg-white p-1.5 rounded-full cursor-pointer border-1  "
           >
             <CameraIcon className="size-6" />
             <input
@@ -54,7 +63,18 @@ function UpdateProfilePage() {
             />
           </label>
         </div>
-        <div className=" transition-all flex flex-col gap-4 w-80">
+
+        {authUser?.avatar !== "" && (
+          <div className="flex gap-7 items-center">
+            <Button
+              variant="delete"
+              text={"Remove avatar"}
+              onClick={handleRemoveImage}
+            ></Button>
+          </div>
+        )}
+
+        <div className=" transition-all flex flex-col gap-4 w-80 text-sm ">
           <div className="flex flex-col gap-2">
             <p className="font-medium">Name</p>
             <p className=" border-1 dark:border-zinc-800 border-indigo-50 rounded-sm px-4 py-2 flex items-center gap-3 dark:bg-zinc-800/40 bg-indigo-50/50 ">
