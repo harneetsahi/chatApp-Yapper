@@ -5,7 +5,8 @@ import { io, Socket } from "socket.io-client";
 import { axiosInstance } from "../lib/axios";
 import { useChatStore } from "./useChatStore";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL =
+  import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
 
 export interface User {
   _id?: string;
