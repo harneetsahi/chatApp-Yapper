@@ -7,9 +7,9 @@ import {
   updateProfile,
   updatePassword,
   removeAvatar,
-} from "../controllers/auth.controller";
-import authMiddleware from "../middleware/auth.middleware";
-import { upload } from "../middleware/multer.middleware";
+} from "../controllers/auth.controller.js";
+import authMiddleware from "../middleware/auth.middleware.js";
+import { upload } from "../middleware/multer.middleware.js";
 
 const authRouter = Router();
 

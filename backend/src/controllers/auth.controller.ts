@@ -3,11 +3,11 @@ import {
   zodSigninValidation,
   zodSignupValidation,
   zodPasswordValidation,
-} from "../lib/zodValidation";
+} from "../lib/zodValidation.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/user.model";
-import { uploadOnCloudinary, deleteFromCloudinary } from "../lib/cloudinary";
+import User from "../models/user.model.js";
+import { uploadOnCloudinary, deleteFromCloudinary } from "../lib/cloudinary.js";
 
 export const signup = async (req: Request, res: Response) => {
   const parsedBody = zodSignupValidation.safeParse(req.body);

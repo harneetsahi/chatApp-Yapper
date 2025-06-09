@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.jwt; // named the cookie 'jwt' in the controller
