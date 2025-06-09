@@ -17,7 +17,14 @@ function Navbar() {
 
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
-    return savedTheme === "dark";
+
+    if (savedTheme) {
+      return savedTheme === "dark";
+    }
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
   });
 
   function handleLogout() {
@@ -68,9 +75,9 @@ function Navbar() {
               name="Change theme"
             >
               {darkMode ? (
-                <SunIcon className="md:size-6 size-5 " />
+                <SunIcon className="md:size-6 size-5.5 " />
               ) : (
-                <MoonIcon className="md:size-6 size-5" />
+                <MoonIcon className="md:size-6 size-5.5" />
               )}
             </button>
 
@@ -81,7 +88,7 @@ function Navbar() {
                 onClick={handleSettings}
                 name="Settings"
               >
-                <SettingsIcon className="md:size-6 size-5 hover:text-indigo-500 focus:text-indigo-500" />
+                <SettingsIcon className="md:size-6 size-5 hover:text-indigo-500 focus:text-indigo-500 " />
                 {showDropdown && <SettingsDropdown />}
               </button>
             )}
@@ -100,7 +107,7 @@ function Navbar() {
             {!authUser && (
               <Link
                 to="/signin"
-                className="border-1 border-indigo-500 dark:text-white text-zinc-900 py-1.5 md:px-5 px-4 text-center rounded-3xl hover:bg-indigo-500 hover:text-white mr-2  transition-all "
+                className="border-1 border-indigo-500 dark:text-white text-zinc-900 md:py-1.5 py-1 md:px-5 px-4 text-center rounded-3xl hover:bg-indigo-500 hover:text-white mr-2  transition-all "
                 title="Log in"
               >
                 Log in

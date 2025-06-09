@@ -33,7 +33,7 @@ function Signup() {
     <>
       <div className="flex flex-col items-center h-[calc(100vh-80px)] justify-center">
         <div className="relative overflow-hidden p-5 rounded-lg">
-          <ShineBorder shineColor={["#A07CFE", "#999ac6", "#634b66"]} />
+          <ShineBorder shineColor={["#A07CFE", "#fc4b25", "#634b66"]} />
           <h1 className="text-2xl mt-2">Create an account</h1>
           <section className="my-5 flex flex-col ">
             <form
@@ -103,6 +103,7 @@ function Signup() {
                   required={true}
                 />
                 <button
+                  type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute top-0 bottom-0 right-3"
                 >

@@ -31,7 +31,7 @@ function App() {
     );
 
   return (
-    <div className={`${themeClass}  min-h-screen  selection:bg-blue-600/40 `}>
+    <div className={`${themeClass}  min-h-screen  selection:bg-indigo-700/40 `}>
       <BrowserRouter>
         <Toaster position="top-center" reverseOrder={false} />
         <Navbar />

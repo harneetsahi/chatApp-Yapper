@@ -34,9 +34,9 @@ function Sidebar({ className }: SidebarProps) {
               <button
                 key={user._id}
                 onClick={() => setSelectedUser(user)}
-                className={`hover:dark:bg-zinc-800/40 hover:bg-indigo-50/50 hover:border-l-2 hover:border-indigo-300 transition-all px-3 py-2.5 w-full rounded-md cursor-pointer flex items-center justify-between gap-3 ${
+                className={`hover:dark:bg-zinc-800/40 hover:bg-indigo-50/50 hover:border-l-2 hover:border-indigo-300  px-3 py-2.5 w-full rounded-md cursor-pointer flex items-center justify-between gap-3 ${
                   selectedUser?._id === user._id
-                    ? "bg-indigo-50 dark:bg-zinc-800/50 border-l-2 border-indigo-300 transition-all"
+                    ? "bg-indigo-50 dark:bg-zinc-800/50 border-l-2 border-indigo-300"
                     : ""
                 }`}
               >

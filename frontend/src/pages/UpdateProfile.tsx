@@ -31,7 +31,7 @@ function UpdateProfilePage() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-5 pt-18 max-w-[calc(1250px)] m-auto  border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
+      <div className="flex flex-col items-center gap-5 pt-18 pb-10 max-w-[calc(1250px)] m-auto  border-t-1 dark:border-zinc-800 border-indigo-100 relative ">
         <span>
           <Link
             to="/dashboard"
@@ -65,7 +65,7 @@ function UpdateProfilePage() {
         </div>
 
         {authUser?.avatar !== "" && (
-          <div className="flex gap-7 items-center">
+          <div className="flex gap-7 items-center ">
             <Button
               variant="delete"
               text={"Remove avatar"}
@@ -74,7 +74,7 @@ function UpdateProfilePage() {
           </div>
         )}
 
-        <div className=" transition-all flex flex-col gap-4 w-80 text-sm ">
+        <div className=" transition-all flex flex-col gap-4 w-80 text-sm cursor-not-allowed py-8 ">
           <div className="flex flex-col gap-2">
             <p className="font-medium">Name</p>
             <p className=" border-1 dark:border-zinc-800 border-indigo-50 rounded-sm px-4 py-2 flex items-center gap-3 dark:bg-zinc-800/40 bg-indigo-50/50 ">

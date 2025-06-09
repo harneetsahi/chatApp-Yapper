@@ -11,6 +11,7 @@ import defaultProfile from "../public/profile.png";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore, User } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utilityFunctions";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 function ChatBox({ showSidebar }: { showSidebar: boolean }) {
   const { authUser } = useAuthStore();
@@ -23,14 +24,12 @@ function ChatBox({ showSidebar }: { showSidebar: boolean }) {
     closeMessages,
   } = useChatStore();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const emojiPickerRef = useRef(null);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [textField, setTextField] = useState("");
-  const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
-    setIsMounted(true);
-
     if (authUser && selectedUser?._id) {
       getMessages(selectedUser._id);
       fetchMessages();
@@ -38,7 +37,6 @@ function ChatBox({ showSidebar }: { showSidebar: boolean }) {
 
     return () => {
       closeMessages();
-      setIsMounted(false);
     };
   }, [authUser, selectedUser?._id, getMessages, fetchMessages, closeMessages]);
 
@@ -56,6 +54,12 @@ function ChatBox({ showSidebar }: { showSidebar: boolean }) {
     setEmojiOpen(false);
   };
 
+  const handleClickOutside = () => {
+    setEmojiOpen(false);
+  };
+
+  useOutsideClick(emojiPickerRef, handleClickOutside);
+
   const handleSendMessage = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -72,6 +76,7 @@ function ChatBox({ showSidebar }: { showSidebar: boolean }) {
     } catch (error) {
       console.log("failed to send message", error);
     }
+    setEmojiOpen(false);
   };
 
   return (
@@ -128,7 +133,8 @@ function ChatBox({ showSidebar }: { showSidebar: boolean }) {
             </div>
 
             <form
-              className="flex items-center absolute bottom-0 left-0 right-0 px-5 pb-5 "
+              className="flex items-center absolute bottom-0 left-0 right-0 px-5 pb-5"
+              ref={emojiPickerRef}
               onSubmit={handleSendMessage}
             >
               <MessageInput
@@ -146,7 +152,7 @@ function ChatBox({ showSidebar }: { showSidebar: boolean }) {
               >
                 <SmileyIcon className={"absolute -left-11 -top-3"} />
               </p>
-              <div className="emoji-container relative">
+              <div className="emoji-container relative ">
                 <EmojiPicker
                   open={emojiOpen}
                   className="emoji-picker -right-15 sm:-right-0 bottom-8 transition-all "

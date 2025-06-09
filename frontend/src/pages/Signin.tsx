@@ -28,7 +28,7 @@ function Signin() {
     <>
       <div className="flex flex-col items-center h-[calc(100vh-130px)] justify-center">
         <div className="relative overflow-hidden p-5 rounded-lg">
-          <ShineBorder shineColor={["#A07CFE", "#999ac6", "#634b66"]} />
+          <ShineBorder shineColor={["#A07CFE", "#fc4b25", "#634b66"]} />
           <h1 className="md:text-2xl text-xl transition-all">Log in</h1>
           <section className="my-8 ">
             <form
@@ -68,6 +68,7 @@ function Signin() {
                   required={true}
                 />
                 <button
+                  type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute top-0 bottom-0 right-3"
                 >
