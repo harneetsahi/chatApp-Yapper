@@ -9,7 +9,6 @@ import Loader from "../components/Loader";
 
 function UpdatePasswordPage() {
   const { updatePassword, isUpdatingPassword } = useAuthStore();
-  const [showPassword, setShowPassword] = useState(true);
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -41,7 +40,7 @@ function UpdatePasswordPage() {
         <form className=" transition-all flex flex-col items-center gap-5 p-5  rounded-sm ">
           <Input
             icon={<PasswordIcon />}
-            type={showPassword ? "text" : "password"}
+            type={"text"}
             id="oldPassword"
             placeholder="Old Password"
             onChange={(e) =>
@@ -58,7 +57,7 @@ function UpdatePasswordPage() {
           />
           <Input
             icon={<PasswordIcon />}
-            type={showPassword ? "text" : "password"}
+            type={"text"}
             id="newPassword"
             placeholder="New Password"
             onChange={(e) =>
@@ -75,7 +74,7 @@ function UpdatePasswordPage() {
           />
           <Input
             icon={<PasswordIcon />}
-            type={showPassword ? "text" : "password"}
+            type={"text"}
             id="confirmNewPassword"
             placeholder="Confirm New Password"
             onChange={(e) =>
