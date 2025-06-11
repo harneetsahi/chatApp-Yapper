@@ -3,6 +3,7 @@
 ### Technologies and Frameworks:
 
 - Socket-io
+- TypeScript
 - ReactJS
 - Tailwind
 - Zustand
@@ -12,9 +13,9 @@ I was curious to see how applications like Rocket Chat and Zulip work so I tried
 
 ### 📋 Usage
 
-It's a simple application where you can chat with basically all the users who register on it. Kind of like facebook but you don't have to search.
+It's a simple web app where you can chat with anyone who is registered on it.
 
-It has a lot of scope for improvement and in terms of scaling but it was a great project for me to understand how to work with real time messaging services.
+It has a lot of scope for improvement and in terms of scaling but it was a great project for me to understand how to work with web sockets.
 
 ### ♿️ Accessibility
 
