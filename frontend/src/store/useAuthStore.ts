@@ -67,7 +67,9 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       get().connectSocket();
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.message);
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong");
       }
     } finally {
       set({ isSigningUp: false });
@@ -82,7 +84,11 @@ export const useAuthStore = create<IAuthStore>((set, get) => ({
       toast.success("Welcome to your account. Yap away!");
       get().connectSocket();
     } catch (error) {
-      toast.error("Incorrect credentials");
+      if (axios.isAxiosError(error)) {
+        toast.error(error.message);
+      } else {
+        toast.error("Incorrect credentials");
+      }
     } finally {
       set({ isSigningIn: false });
     }
